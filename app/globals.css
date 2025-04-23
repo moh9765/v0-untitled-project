@@ -1,0 +1,368 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 122 68% 34%; /* #2E7D32 - Fresh Green */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 52 100% 50%; /* #FFD600 - Alert Yellow */
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 122 68% 34%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 122 68% 34%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 52 100% 50%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 122 68% 34%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Google Sans Text", "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+}
+
+/* RTL Support - Comprehensive adjustments */
+[dir="rtl"] {
+  /* Flip icons that need direction change */
+  .rtl-flip {
+    transform: scaleX(-1);
+  }
+
+  /* Adjust margins for RTL */
+  .mr-1,
+  .mr-2,
+  .mr-3,
+  .mr-4,
+  .mr-5,
+  .mr-6,
+  .mr-8,
+  .mr-10,
+  .mr-12 {
+    margin-right: 0 !important;
+  }
+
+  .ml-1,
+  .ml-2,
+  .ml-3,
+  .ml-4,
+  .ml-5,
+  .ml-6,
+  .ml-8,
+  .ml-10,
+  .ml-12 {
+    margin-left: 0 !important;
+  }
+
+  /* Auto margins */
+  .ml-auto {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+  }
+
+  .mr-auto {
+    margin-right: 0 !important;
+    margin-left: auto !important;
+  }
+
+  /* Specific RTL margin classes */
+  .rtl-mr-1 {
+    margin-left: 0.25rem !important;
+  }
+  .rtl-mr-2 {
+    margin-left: 0.5rem !important;
+  }
+  .rtl-mr-3 {
+    margin-left: 0.75rem !important;
+  }
+  .rtl-mr-4 {
+    margin-left: 1rem !important;
+  }
+
+  .rtl-ml-1 {
+    margin-right: 0.25rem !important;
+  }
+  .rtl-ml-2 {
+    margin-right: 0.5rem !important;
+  }
+  .rtl-ml-3 {
+    margin-right: 0.75rem !important;
+  }
+  .rtl-ml-4 {
+    margin-right: 1rem !important;
+  }
+
+  /* Adjust padding for RTL */
+  .pl-1,
+  .pl-2,
+  .pl-3,
+  .pl-4,
+  .pl-5,
+  .pl-6,
+  .pl-8,
+  .pl-10,
+  .pl-12 {
+    padding-left: 0 !important;
+  }
+
+  .pr-1,
+  .pr-2,
+  .pr-3,
+  .pr-4,
+  .pr-5,
+  .pr-6,
+  .pr-8,
+  .pr-10,
+  .pr-12 {
+    padding-right: 0 !important;
+  }
+
+  /* Specific RTL padding classes */
+  .rtl-pl-1 {
+    padding-right: 0.25rem !important;
+  }
+  .rtl-pl-2 {
+    padding-right: 0.5rem !important;
+  }
+  .rtl-pl-3 {
+    padding-right: 0.75rem !important;
+  }
+  .rtl-pl-4 {
+    padding-right: 1rem !important;
+  }
+
+  .rtl-pr-1 {
+    padding-left: 0.25rem !important;
+  }
+  .rtl-pr-2 {
+    padding-left: 0.5rem !important;
+  }
+  .rtl-pr-3 {
+    padding-left: 0.75rem !important;
+  }
+  .rtl-pr-4 {
+    padding-left: 1rem !important;
+  }
+
+  /* Adjust text alignment */
+  .text-left {
+    text-align: right !important;
+  }
+
+  .text-right {
+    text-align: left !important;
+  }
+
+  /* Adjust flexbox direction */
+  .flex-row {
+    flex-direction: row-reverse !important;
+  }
+
+  /* Fix for RTL dropdown menus */
+  .dropdown-menu-rtl {
+    left: 0 !important;
+    right: auto !important;
+  }
+
+  /* Adjust border radius for RTL */
+  .rounded-l-md {
+    border-radius: 0 !important;
+    border-top-right-radius: 0.375rem !important;
+    border-bottom-right-radius: 0.375rem !important;
+  }
+
+  .rounded-r-md {
+    border-radius: 0 !important;
+    border-top-left-radius: 0.375rem !important;
+    border-bottom-left-radius: 0.375rem !important;
+  }
+}
+
+/* Font adjustments for Arabic */
+[dir="rtl"] body {
+  font-family: "Inter", "Tajawal", sans-serif;
+  letter-spacing: 0;
+}
+
+/* Fix for input fields in RTL */
+[dir="rtl"] input,
+[dir="rtl"] textarea {
+  text-align: right;
+}
+
+/* Fix for placeholder text in RTL */
+[dir="rtl"] input::placeholder,
+[dir="rtl"] textarea::placeholder {
+  text-align: right;
+}
+
+/* Animation classes */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-in-out;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s ease-in-out;
+}
+
+.animate-slide-left {
+  animation: slideLeft 0.3s ease-in-out;
+}
+
+.animate-slide-right {
+  animation: slideRight 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideRight {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Lazy loading image styles */
+.lazy-image {
+  transition: filter 0.3s ease-in-out;
+}
+
+.lazy-image-loading {
+  filter: blur(10px);
+}
+
+.lazy-image-loaded {
+  filter: blur(0);
+}
+
+/* Hide scrollbar but allow scrolling */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Floating elements */
+.floating-element {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.floating-element:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Bottom sheet styles */
+.bottom-sheet {
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.bottom-sheet-open {
+  transform: translateY(0);
+}
+
+/* Skeleton loading animation */
+.skeleton-loading {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeletonLoading 1.5s infinite;
+}
+
+@keyframes skeletonLoading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
