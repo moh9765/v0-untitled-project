@@ -229,8 +229,6 @@ export default function Home() {
 
       {/* Bottom navigation */}
       <BottomNavigation />
-
-      {/* Floating cart */}
       <FloatingCart />
     </div>
   )
