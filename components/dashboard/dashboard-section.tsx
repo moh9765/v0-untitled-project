@@ -75,58 +75,10 @@ export function DashboardSection() {
         </Card>
       </div>
 
-      {/* Personalized Deals */}
-      <h3 className="font-medium mb-3">{t("dashboard.personalizedDeals")}</h3>
-      <div className="relative overflow-hidden rounded-lg mb-6">
-        <div className="flex overflow-x-auto hide-scrollbar snap-x snap-mandatory">
-          {[1, 2, 3].map((item) => (
-            <div key={item} className="flex-shrink-0 w-full snap-center">
-              <div className="relative h-32 w-full bg-secondary-100 dark:bg-secondary-900/20 rounded-lg overflow-hidden">
-                <div className="absolute inset-0 p-4 flex flex-col justify-between">
-                  <div>
-                    <h4 className="font-bold text-lg">{t("dashboard.dealTitle", { number: item })}</h4>
-                    <p className="text-sm">{t("dashboard.dealDescription")}</p>
-                  </div>
-                  <Button size="sm" className="self-start">
-                    {t("dashboard.claimOffer")}
-                  </Button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="absolute bottom-2 left-0 right-0 flex justify-center space-x-1">
-          {[1, 2, 3].map((item) => (
-            <div
-              key={item}
-              className={`h-1.5 rounded-full ${item === 1 ? "w-6 bg-primary" : "w-1.5 bg-slate-300 dark:bg-slate-600"}`}
-            />
-          ))}
-        </div>
-      </div>
+    
 
       {/* Quick Reorder */}
-      <h3 className="font-medium mb-3">{t("dashboard.quickReorder")}</h3>
-      <div className="grid grid-cols-4 gap-3 mb-6">
-        {frequentlyPurchased.map((product) => (
-          <Card key={product.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-            <CardContent className="p-2 flex flex-col items-center justify-center text-center">
-              <div className="relative w-12 h-12 mb-1">
-                <Image
-                  src={product.thumbnail || "/placeholder.svg"}
-                  alt={isRTL && product.nameAr ? product.nameAr : product.name}
-                  fill
-                  className="object-cover rounded-md"
-                />
-              </div>
-              <span className="text-xs font-medium line-clamp-1">
-                {isRTL && product.nameAr ? product.nameAr : product.name}
-              </span>
-              <span className="text-xs text-slate-500">${product.price.toFixed(2)}</span>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+     
 
       {/* Recent Orders */}
       <h3 className="font-medium mb-3">{t("dashboard.recentOrders")}</h3>

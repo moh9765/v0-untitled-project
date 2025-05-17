@@ -79,9 +79,11 @@ export default function ParcelPage() {
                     <Send className="h-8 w-8 text-sky-600 dark:text-sky-400" />
                   </div>
                   <h2 className="text-lg font-semibold">{t("parcel.send")}</h2>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">
-                    Send packages to any location with our reliable delivery service
-                  </p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                    {isRTL
+                      ? "أرسل الطرود إلى أي مكان باستخدام خدمتنا الموثوقة للتوصيل"
+                      : "Send packages to any location with our reliable delivery service"}
+                    </p>
                   <Button asChild className="w-full mt-2">
                     <Link href="/parcel/new">{t("parcel.createNew")}</Link>
                   </Button>
@@ -91,16 +93,20 @@ export default function ParcelPage() {
 
             <div className="space-y-2">
               <h3 className="text-lg font-semibold">{t("parcel.pickupDetails")}</h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
-                We'll pick up your parcel from your location and deliver it to the destination
-              </p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">
+                {isRTL
+                  ? "سنقوم باستلام الطرد من موقعك وتسليمه إلى الوجهة"
+                  : "We'll pick up your parcel from your location and deliver it to the destination"}
+                </p>
             </div>
 
             <div className="space-y-2">
               <h3 className="text-lg font-semibold">{t("parcel.deliveryDetails")}</h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
-                Fast and secure delivery with real-time tracking
-              </p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">
+                {isRTL
+                  ? "توصيل سريع وآمن مع التتبع في الوقت الفعلي"
+                  : "Fast and secure delivery with real-time tracking"}
+                </p>
             </div>
           </TabsContent>
 
@@ -113,9 +119,11 @@ export default function ParcelPage() {
                     <Package className="h-8 w-8 text-sky-600 dark:text-sky-400" />
                   </div>
                   <h2 className="text-lg font-semibold">{t("parcel.track")}</h2>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">
-                    Enter your tracking number to see the status of your parcel
-                  </p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                    {isRTL
+                      ? "أدخل رقم التتبع الخاص بك لمعرفة حالة الطرد الخاص بك"
+                      : "Enter your tracking number to see the status of your parcel"}
+                    </p>
                   <form onSubmit={handleTrackParcel} className="w-full space-y-2">
                     <div className="relative">
                       <Input
@@ -144,16 +152,22 @@ export default function ParcelPage() {
                     <Clock className="h-8 w-8 text-sky-600 dark:text-sky-400" />
                   </div>
                   <h2 className="text-lg font-semibold">{t("parcel.history")}</h2>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">
-                    View your past parcel deliveries and their details
-                  </p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                    {isRTL
+                      ? "عرض عمليات تسليم الطرود السابقة وتفاصيلها"
+                      : "View your past parcel deliveries and their details"}
+                    </p>
                 </div>
               </CardContent>
             </Card>
 
             <div className="text-center py-6">
               <p className="text-slate-500">{t("search.noResults")}</p>
-              <p className="text-sm text-slate-400 mt-1">You haven't sent any parcels yet</p>
+                <p className="text-sm text-slate-400 mt-1">
+                {isRTL
+                  ? "لم تقم بإرسال أي طرود حتى الآن"
+                  : "You haven't sent any parcels yet"}
+                </p>
               <Button asChild className="mt-4">
                 <Link href="/parcel/new">{t("parcel.createNew")}</Link>
               </Button>

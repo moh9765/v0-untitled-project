@@ -1,3 +1,4 @@
+import { Product } from "./types/product"
 export type Category = {
   id: string
   nameKey: string
@@ -13,6 +14,10 @@ export type Subcategory = {
 }
 
 export type Vendor = {
+  lat(lat: number, lng: number, lat1: any, lng1: any): any
+  lng(lat: number, lng: number, lat1: any, lng1: any): any
+  popularity: any
+  image: boolean
   id: string
   name: string
   nameAr?: string
@@ -74,3 +79,30 @@ export type Order = {
   distance?: number
   categoryId?: string
 }
+export type UserAddress = {
+  id: number;
+  user_id: string;
+  street_address: string;
+  apartment?: string;
+  city: string;
+  state: string;
+  zip_code: string;
+  special_instructions?: string;
+  is_default: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export type AddressFormData = {
+  street_address: string;
+  apartment: string;
+  city: string;
+  state: string;
+  zip_code: string;
+  special_instructions: string;
+  is_default: boolean;
+}
+
+export type FavoriteItem =
+  | (Product & { type: "product" })
+  | (Vendor & { type: "vendor" });

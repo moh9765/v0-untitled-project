@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import { getRecommendations, generateRecommendations } from "@/lib/recommendation-service"
 import { mockProducts } from "@/lib/mock-data/products"
 import { initDatabase } from "@/lib/db-init"
-
+import type { Product } from "@/lib/types/product"
 // Initialize database tables
 let dbInitialized = false
 const initDbPromise = initDatabase()
@@ -24,9 +24,14 @@ export async function GET(request: Request) {
 
     const { searchParams } = new URL(request.url)
     const userId = searchParams.get("userId") || "anonymous-user"
+    console.log("User ID:", userId) // Log the user ID for debugging
     const refresh = searchParams.get("refresh") === "true"
 
-    let recommendations = []
+    interface Recommendation {
+      productId: string
+      score: number
+    }
+    let recommendations: Recommendation[] = []
 
     try {
       if (refresh) {
@@ -43,15 +48,22 @@ export async function GET(request: Request) {
 
     // If we have recommendations, map them to products
     if (recommendations && recommendations.length > 0) {
+      interface Recommendation {
+        productId: string
+        score: number
+      }
+
+      
+
       const recommendedProducts = recommendations
-        .map((rec) => {
-          const product = mockProducts.find((p) => p.id === rec.productId)
+        .map((rec: Recommendation) => {
+          const product = mockProducts.find((p: Product) => p.id === rec.productId)
           return product
-            ? {
-                ...product,
-                recommendationScore: rec.score,
-              }
-            : null
+        ? {
+            ...product,
+            recommendationScore: rec.score,
+          }
+        : null
         })
         .filter(Boolean)
 

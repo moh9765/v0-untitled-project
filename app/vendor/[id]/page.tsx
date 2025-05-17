@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation"
 import { useLanguage } from "@/contexts/language-context"
 import { BottomNavigation } from "@/components/bottom-navigation"
 import { Button } from "@/components/ui/button"
-import { vendors } from "@/lib/mock-data"
+import { Vendor as VendorCard } from "@/components/Card/VendorCard"
 import type { Vendor } from "@/lib/types"
 import { ArrowLeft, ArrowRight, Star, Clock, MapPin, Heart, Share2 } from "lucide-react"
 import Image from "next/image"
@@ -20,7 +20,66 @@ export default function VendorPage() {
 
   useEffect(() => {
     // Find the vendor
-    const foundVendor = vendors.find((v) => v.id === vendorId)
+    const vendors: Vendor[] = [
+      {
+        id: "1",
+        name: "Vendor 1",
+        nameAr: "البائع 1",
+        coverImage: "/images/vendor1-cover.jpg",
+        logo: "/images/vendor1-logo.jpg",
+        rating: 4.5,
+        ratingCount: 120,
+        isOpen: true,
+        address: "123 Main St",
+        addressAr: "123 الشارع الرئيسي",
+        deliveryTime: 30,
+        deliveryFee: 5.0,
+        minOrder: 20.0,
+        distance: 2.5,
+        isFavorite: false,
+        lat: function (lat: number, lng: number, lat1: any, lng1: any) {
+          throw new Error("Function not implemented.")
+        },
+        lng: function (lat: number, lng: number, lat1: any, lng1: any) {
+          throw new Error("Function not implemented.")
+        },
+        popularity: undefined,
+        image: false,
+        categoryId: "",
+        subcategoryIds: [],
+        tags: []
+      },
+      {
+        id: "2",
+        name: "Vendor 2",
+        nameAr: "البائع 2",
+        coverImage: "/images/vendor2-cover.jpg",
+        logo: "/images/vendor2-logo.jpg",
+        rating: 4.0,
+        ratingCount: 80,
+        isOpen: false,
+        address: "456 Elm St",
+        addressAr: "456 شارع إلم",
+        deliveryTime: 45,
+        deliveryFee: 3.0,
+        minOrder: 15.0,
+        distance: 5.0,
+        isFavorite: true,
+        lat: function (lat: number, lng: number, lat1: any, lng1: any) {
+          throw new Error("Function not implemented.")
+        },
+        lng: function (lat: number, lng: number, lat1: any, lng1: any) {
+          throw new Error("Function not implemented.")
+        },
+        popularity: undefined,
+        image: false,
+        categoryId: "",
+        subcategoryIds: [],
+        tags: []
+      },
+    ];
+
+    const foundVendor: Vendor | undefined = vendors.find((v: Vendor) => v.id === vendorId);
     if (!foundVendor) {
       // Vendor not found, redirect to home
       router.push("/")

@@ -1,0 +1,14 @@
+app.get("/api/restaurants", async (req, res) => {
+    const { lat, lng } = req.query
+    const apiKey = "YOUR_GOOGLE_PLACES_API_KEY"
+    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=restaurant&key=${apiKey}`
+  
+    try {
+      const response = await fetch(url)
+      const data = await response.json()
+      res.json({ restaurants: data.results })
+    } catch (error) {
+      console.error("Error fetching restaurants:", error)
+      res.status(500).json({ error: "Failed to fetch restaurants" })
+    }
+  })

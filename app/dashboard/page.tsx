@@ -9,28 +9,87 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
-import { ArrowLeft, ArrowRight, Clock, Package, Gift, Repeat, ChevronRight } from "lucide-react"
+import { ArrowLeft, ArrowRight, Clock, Package, Gift, Repeat, ChevronRight, Award } from "lucide-react"
 import { mockOrders } from "@/lib/mock-orders"
 import Link from "next/link"
+import { useToast } from "@/hooks/use-toast"
+import { OpenOrdersSection } from "@/components/dashboard/open-orders-section"
 
 export default function DashboardPage() {
   const router = useRouter()
   const { t, dir, isRTL } = useLanguage()
+  const { toast } = useToast()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const [loyaltyPoints, setLoyaltyPoints] = useState(350)
-  const [nextRewardPoints, setNextRewardPoints] = useState(500)
+  const [userId, setUserId] = useState<string | null>(null)
+  const [loyaltyPoints, setLoyaltyPoints] = useState(0)
+  const [nextRewardPoints, setNextRewardPoints] = useState(0)
+  const [rewardLevel, setRewardLevel] = useState("Bronze")
+  const [progress, setProgress] = useState(0)
   const [orders, setOrders] = useState(mockOrders)
+
+  // Fetch user rewards
+  const fetchRewards = async (userId: string) => {
+    try {
+      const response = await fetch(`/api/rewards?userId=${userId}`)
+      if (response.ok) {
+        const data = await response.json()
+        setLoyaltyPoints(data.rewards.points || 0)
+        setRewardLevel(data.rewards.level || "Bronze")
+
+        // Set next reward threshold
+        if (data.nextThreshold) {
+          setProgress(data.nextThreshold.progress || 0)
+          setNextRewardPoints(data.nextThreshold.pointsNeeded || 0)
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching rewards:", error)
+    }
+  }
+
+  // Fetch user orders
+  const fetchOrders = async (userId: string) => {
+    try {
+      const response = await fetch(`/api/orders`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ customer_id: localStorage.getItem("user_email") }),
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        if (data.orders && data.orders.length > 0) {
+          setOrders(data.orders)
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching orders:", error)
+    }
+  }
 
   useEffect(() => {
     // Check authentication status
     const authStatus = localStorage.getItem("is_authenticated") === "true"
-    setIsAuthenticated(authStatus)
-    setIsLoading(false)
+    const userIdFromStorage = localStorage.getItem("user_id")
 
-    // Redirect if not authenticated
+    setIsAuthenticated(authStatus)
+    setUserId(userIdFromStorage)
+
     if (!authStatus) {
       router.push("/auth/login")
+      return
+    }
+
+    if (userIdFromStorage) {
+      // Fetch rewards and orders
+      fetchRewards(userIdFromStorage)
+      fetchOrders(userIdFromStorage)
+      setIsLoading(false)
+    } else {
+      setIsLoading(false)
     }
   }, [router])
 
@@ -40,6 +99,22 @@ export default function DashboardPage() {
 
   if (!isAuthenticated) {
     return null // Will redirect in useEffect
+  }
+
+  // Helper function to get color class based on level
+  const getLevelColorClass = (level: string) => {
+    switch (level) {
+      case "Bronze":
+        return "bg-amber-700"
+      case "Silver":
+        return "bg-slate-500"
+      case "Gold":
+        return "bg-yellow-500"
+      case "Platinum":
+        return "bg-slate-700"
+      default:
+        return "bg-primary"
+    }
   }
 
   return (
@@ -59,20 +134,55 @@ export default function DashboardPage() {
       {/* Main content */}
       <main className="flex-1 px-4 py-6 pb-20">
         {/* Loyalty Points Card */}
-        <Card className="mb-6 bg-gradient-to-r from-primary-100 to-primary-50 dark:from-primary-900/30 dark:to-primary-800/20">
+        <Card className="mb-6 overflow-hidden">
+          <div className={`${getLevelColorClass(rewardLevel)} text-white p-4`}>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Award className="h-6 w-6" />
+                <h3 className="font-bold text-lg">{rewardLevel} {t("rewards.level")}</h3>
+              </div>
+              <div className="text-right">
+                <div className="text-3xl font-bold">{loyaltyPoints}</div>
+                <div className="text-xs opacity-80">{t("rewards.points")}</div>
+              </div>
+            </div>
+          </div>
+
           <CardContent className="p-4">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="font-medium">{t("dashboard.loyaltyPoints")}</h3>
-              <span className="text-xl font-bold">{loyaltyPoints}</span>
+            {nextRewardPoints > 0 ? (
+              <>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium">
+                    {nextRewardPoints} {t("rewards.pointsToNextLevel")}
+                  </span>
+                  <span className="text-xs text-slate-500">{Math.round(progress)}%</span>
+                </div>
+                <Progress value={progress} className="h-2 mb-4" />
+              </>
+            ) : (
+              <div className="mb-4 text-sm text-center py-2 bg-slate-50 dark:bg-slate-800 rounded-md">
+                {t("rewards.maxLevelReached")}
+              </div>
+            )}
+
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex-1"
+                onClick={() => router.push("/customer/rewards-dashboard")}
+              >
+                {t("dashboard.viewRewards")}
+              </Button>
+              <Button
+                variant="default"
+                size="sm"
+                className="flex-1"
+                onClick={() => router.push("/marketplace")}
+              >
+                {t("dashboard.earnMore")}
+              </Button>
             </div>
-            <Progress value={(loyaltyPoints / nextRewardPoints) * 100} className="h-2 mb-2" />
-            <div className="flex justify-between text-sm text-slate-600 dark:text-slate-400">
-              <span>0</span>
-              <span>{t("dashboard.nextReward", { points: nextRewardPoints })}</span>
-            </div>
-            <Button variant="outline" size="sm" className="mt-4 w-full">
-              {t("dashboard.viewRewards")}
-            </Button>
           </CardContent>
         </Card>
 
@@ -95,7 +205,7 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
           </Link>
-          <Link href="/rewards">
+          <Link href="/customer/rewards-dashboard">
             <Card className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors h-full">
               <CardContent className="p-3 flex flex-col items-center justify-center text-center">
                 <Gift className="h-6 w-6 text-primary mb-1" />
@@ -142,6 +252,9 @@ export default function DashboardPage() {
             ))}
           </div>
         </div>
+
+        {/* Open Orders Section */}
+        <OpenOrdersSection />
 
         {/* Orders Tabs */}
         <Tabs defaultValue="active" className="mt-6">
@@ -221,7 +334,8 @@ export default function DashboardPage() {
                           {t("delivery.deliveredOn")}: {order.estimatedDelivery}
                         </div>
                         <Button variant="outline" size="sm">
-                          {t("dashboard.reorder")}
+                          <Repeat className="h-6 w-6 text-primary mb-1" />
+                          <span className="text-xs font-medium">{t("dashboard.reorder")}</span>
                         </Button>
                       </div>
                     </CardContent>

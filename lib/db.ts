@@ -1,108 +1,161 @@
-import { neon } from "@neondatabase/serverless"
+import { neon } from "@neondatabase/serverless";
 
-// Use the environment variable for the database URL
-const DATABASE_URL =
-  process.env.DATABASE_URL ||
-  process.env.NEON_DATABASE_URL ||
-  "postgres://neondb_owner:npg_ed7EglWtc6Bj@ep-silent-butterfly-a2xjsfvf-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require"
+const DATABASE_URL = 'postgresql://neondb_owner:npg_ed7EglWtc6Bj@ep-silent-butterfly-a2xjsfvf-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require';
+if (!DATABASE_URL) throw new Error("DATABASE_URL is missing");
 
-// Create a SQL client with the connection string
-export const sql = neon(DATABASE_URL)
+export const sql = neon(DATABASE_URL);
 
-// Helper function to execute a query with error handling
-export async function query<T>(queryString: string, params: any[] = []): Promise<T> {
+// Helper function for parameterized queries (tagged templates only)
+export async function query<T>(strings: TemplateStringsArray, ...params: any[]): Promise<T> {
   try {
-    // Use sql.query for parameterized queries
-    if (params && params.length > 0) {
-      return (await sql.query(queryString, params)) as T
-    } else {
-      // Use tagged template literal for simple queries
-      return (await sql`${queryString}`) as T
-    }
+    return (await sql(strings, ...params)) as T;
   } catch (error) {
-    console.error("Database query error:", error)
-    throw new Error("Database query failed")
+    console.error("Database query error:", error);
+    throw error;
   }
 }
 
-// Function to check if a table exists
+// Check if a table exists
 export async function tableExists(tableName: string): Promise<boolean> {
   try {
     const result = await sql`
       SELECT EXISTS (
-        SELECT FROM information_schema.tables 
+        SELECT FROM information_schema.tables
         WHERE table_schema = 'public'
         AND table_name = ${tableName}
       )
-    `
-    return result[0]?.exists || false
+    `;
+    return result[0]?.exists || false;
   } catch (error) {
-    console.error("Error checking if table exists:", { tableName, error })
-    return false
+    console.error(`Error checking if table ${tableName} exists:`, error);
+    return false;
   }
 }
 
-// Initialize the database (create tables if they don't exist)
+// Initialize database
 export async function initDatabase(): Promise<void> {
   try {
-    // Check if the user_preferences table exists
-    const userPreferencesExists = await tableExists("user_preferences")
-
-    if (!userPreferencesExists) {
-      await sql`
-        CREATE TABLE user_preferences (
-          id SERIAL PRIMARY KEY,
-          user_id TEXT NOT NULL,
-          category_id TEXT,
-          subcategory_id TEXT,
-          tag TEXT,
-          weight FLOAT NOT NULL DEFAULT 1.0,
-          created_at TIMESTAMP NOT NULL,
-          updated_at TIMESTAMP NOT NULL,
-          UNIQUE(user_id, category_id, subcategory_id, tag)
-        )
-      `
-      console.log("Created user_preferences table")
+    // Test database connection first
+    try {
+      await sql`SELECT 1`;
+      console.log("Database connection successful");
+    } catch (connectionError) {
+      console.error("Database connection failed:", connectionError);
+      console.log("Skipping database initialization due to connection issues");
+      return;
     }
 
-    // Check if the purchase_history table exists
-    const purchaseHistoryExists = await tableExists("purchase_history")
+    const tables = [
+      {
+        name: "user_preferences",
+        create: sql`
+          CREATE TABLE IF NOT EXISTS user_preferences (
+            id SERIAL PRIMARY KEY,
+            user_id TEXT NOT NULL,
+            category_id TEXT,
+            subcategory_id TEXT,
+            tag TEXT,
+            weight FLOAT NOT NULL DEFAULT 1.0,
+            created_at TIMESTAMP NOT NULL,
+            updated_at TIMESTAMP NOT NULL,
+            UNIQUE(user_id, category_id, subcategory_id, tag)
+          )
+        `
+      },
+      {
+        name: "purchase_history",
+        create: sql`
+          CREATE TABLE IF NOT EXISTS purchase_history (
+            id SERIAL PRIMARY KEY,
+            user_id TEXT NOT NULL,
+            product_id TEXT NOT NULL,
+            quantity INTEGER NOT NULL,
+            purchased_at TIMESTAMP NOT NULL
+          )
+        `
+      },
+      {
+        name: "product_recommendations",
+        create: sql`
+          CREATE TABLE IF NOT EXISTS product_recommendations (
+            id SERIAL PRIMARY KEY,
+            user_id TEXT NOT NULL,
+            product_id TEXT NOT NULL,
+            score FLOAT NOT NULL,
+            created_at TIMESTAMP NOT NULL,
+            UNIQUE(user_id, product_id)
+          )
+        `
+      },
+      {
+        name: "users",
+        create: sql`
+          CREATE TABLE IF NOT EXISTS users (
+            id SERIAL PRIMARY KEY,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
+            password_hash TEXT NOT NULL,
+            salt TEXT,
+            role TEXT NOT NULL DEFAULT 'customer',
+            created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+            updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+          )
+        `
+      },
+      {
+        name: "orders",
+        create: sql`
+          CREATE TABLE IF NOT EXISTS orders (
+            id SERIAL PRIMARY KEY,
+            customer_id INTEGER NOT NULL,
+            restaurant_id INTEGER,
+            status TEXT NOT NULL DEFAULT 'pending',
+            total_amount DECIMAL(10, 2) NOT NULL DEFAULT 0,
+            created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+            updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+            delivery_address TEXT,
+            pickup_address TEXT,
+            driver_id INTEGER,
+            payment_method TEXT,
+            payment_status TEXT,
+            notes TEXT,
+            FOREIGN KEY (customer_id) REFERENCES users(id)
+          )
+        `
+      },
+      {
+        name: "order_items",
+        create: sql`
+          CREATE TABLE IF NOT EXISTS order_items (
+            id SERIAL PRIMARY KEY,
+            order_id INTEGER NOT NULL,
+            product_id TEXT NOT NULL,
+            quantity INTEGER NOT NULL DEFAULT 1,
+            price DECIMAL(10, 2) NOT NULL DEFAULT 0,
+            product_name TEXT,
+            created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+            FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+          )
+        `
+      }
+    ];
 
-    if (!purchaseHistoryExists) {
-      await sql`
-        CREATE TABLE purchase_history (
-          id SERIAL PRIMARY KEY,
-          user_id TEXT NOT NULL,
-          product_id TEXT NOT NULL,
-          quantity INTEGER NOT NULL,
-          purchased_at TIMESTAMP NOT NULL
-        )
-      `
-      console.log("Created purchase_history table")
+    for (const { name, create } of tables) {
+      try {
+        if (!(await tableExists(name))) {
+          await create;
+          console.log(`Created table ${name}`);
+        }
+      } catch (tableError) {
+        console.error(`Error creating table ${name}:`, tableError);
+      }
     }
 
-    // Check if the product_recommendations table exists
-    const productRecommendationsExists = await tableExists("product_recommendations")
-
-    if (!productRecommendationsExists) {
-      await sql`
-        CREATE TABLE product_recommendations (
-          id SERIAL PRIMARY KEY,
-          user_id TEXT NOT NULL,
-          product_id TEXT NOT NULL,
-          score FLOAT NOT NULL,
-          created_at TIMESTAMP NOT NULL,
-          UNIQUE(user_id, product_id)
-        )
-      `
-      console.log("Created product_recommendations table")
-    }
-
-    console.log("Database initialization complete")
+    console.log("Database initialization complete");
   } catch (error) {
-    console.error("Error initializing database:", error)
+    console.error("Error initializing database:", error);
   }
 }
 
-// Initialize the database when this module is imported
-initDatabase().catch(console.error)
+// Initialize once
+initDatabase().catch(console.error);

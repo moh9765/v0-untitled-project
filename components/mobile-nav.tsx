@@ -11,6 +11,7 @@ import { Menu, LogOut, User, Package, Clock, MapPin, Truck, Home } from "lucide-
 import { useToast } from "@/hooks/use-toast"
 import { useLanguage } from "@/contexts/language-context"
 import { LanguageSelector } from "@/components/language-selector"
+import { logout } from "@/lib/auth-utils"
 
 interface NavItem {
   titleKey: string
@@ -31,21 +32,42 @@ export function MobileNav({ role = "customer" }: { role?: string }) {
     setIsAuthenticated(authStatus)
   }, [])
 
-  const handleLogout = () => {
-    // Clear authentication data
-    localStorage.removeItem("user_role")
-    localStorage.removeItem("user_email")
-    localStorage.removeItem("is_authenticated")
+  const handleLogout = async () => {
+    try {
+      // Close the mobile menu
+      setOpen(false)
 
-    setOpen(false)
+      // Show loading toast
+      toast({
+        title: "Logging out...",
+        description: "Please wait while we log you out.",
+      })
 
-    toast({
-      title: "Logged out",
-      description: "You have been successfully logged out.",
-    })
+      // Use the comprehensive logout function with the appropriate redirect path
+      // based on the user role
+      const redirectPath = role === "driver" ? "/auth/login?role=driver" : "/auth/login";
+      await logout(redirectPath)
 
-    // Redirect to home page
-    window.location.href = "/"
+      // Note: The toast below won't be shown because we're redirecting
+      toast({
+        title: "Logged out",
+        description: "You have been successfully logged out.",
+      })
+    } catch (error) {
+      console.error("Logout error:", error)
+
+      // Show error toast
+      toast({
+        title: "Logout failed",
+        description: "There was a problem logging you out. Trying emergency logout.",
+        variant: "destructive",
+      })
+
+      // Emergency fallback - direct redirect to login page
+      // The login page has its own logout mechanism that will clear cookies
+      const redirectPath = role === "driver" ? "/auth/login?role=driver" : "/auth/login";
+      window.location.href = redirectPath;
+    }
   }
 
   const customerNavItems: NavItem[] = [

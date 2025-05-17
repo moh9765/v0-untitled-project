@@ -1,126 +1,103 @@
-import type { Product, ProductCategory } from "../types/product"
+import { Product, ProductCategory, } from "../types/product"
 
+
+// Define and export productCategories as a value
 export const productCategories: ProductCategory[] = [
+  {
+    id: "food",
+    name: "Food & Restaurants",
+    nameAr: "الطعام والمطاعم",
+    subcategories: [
+      {
+        id: "restaurants", name: "Restaurants", nameAr: "مطاعم",
+        categoryId: "food"
+      },
+      {
+        id: "fast-food", name: "Fast Food", nameAr: "وجبات سريعة",
+        categoryId: "food"
+      },
+      {
+        id: "cafe", name: "Cafes", nameAr: "مقاهي",
+        categoryId: "food"
+      },
+    ],
+    icon: "🍔"
+  },
   {
     id: "fruits-vegetables",
     name: "Fruits & Vegetables",
     nameAr: "الفواكه والخضروات",
-    icon: "apple",
     subcategories: [
-      { id: "fresh-fruits", name: "Fresh Fruits", nameAr: "فواكه طازجة", categoryId: "fruits-vegetables" },
-      { id: "fresh-vegetables", name: "Fresh Vegetables", nameAr: "خضروات طازجة", categoryId: "fruits-vegetables" },
-      { id: "herbs", name: "Herbs", nameAr: "أعشاب", categoryId: "fruits-vegetables" },
-      { id: "organic-produce", name: "Organic Produce", nameAr: "منتجات عضوية", categoryId: "fruits-vegetables" },
+      {
+        id: "fresh-fruits", name: "Fresh Fruits", nameAr: "الفواكه الطازجة",
+        categoryId: "fruits-vegetables"
+      },
+      {
+        id: "fresh-vegetables", name: "Fresh Vegetables", nameAr: "الخضروات الطازجة",
+        categoryId: "fruits-vegetables"
+      },
     ],
+    icon: "🍎"
   },
   {
     id: "dairy-eggs",
     name: "Dairy & Eggs",
     nameAr: "منتجات الألبان والبيض",
-    icon: "milk",
     subcategories: [
-      { id: "milk", name: "Milk", nameAr: "حليب", categoryId: "dairy-eggs" },
-      { id: "cheese", name: "Cheese", nameAr: "جبن", categoryId: "dairy-eggs" },
-      { id: "yogurt", name: "Yogurt", nameAr: "زبادي", categoryId: "dairy-eggs" },
-      { id: "butter", name: "Butter & Margarine", nameAr: "زبدة ومارجرين", categoryId: "dairy-eggs" },
-      { id: "eggs", name: "Eggs", nameAr: "بيض", categoryId: "dairy-eggs" },
-      { id: "vegan-dairy", name: "Vegan Alternatives", nameAr: "بدائل نباتية", categoryId: "dairy-eggs" },
+      {
+        id: "milk", name: "Milk", nameAr: "الحليب",
+        categoryId: "dairy-eggs"
+      },
+      {
+        id: "eggs", name: "Eggs", nameAr: "البيض",
+        categoryId: "dairy-eggs"
+      },
+      {
+        id: "vegan-dairy", name: "Vegan Dairy", nameAr: "منتجات ألبان نباتية",
+        categoryId: "dairy-eggs"
+      },
     ],
+    icon: "🥛"
+  },
+  {
+    id: "bakery",
+    name: "Bakery",
+    nameAr: "المخبوزات",
+    subcategories: [
+      {
+        id: "bread", name: "Bread", nameAr: "الخبز",
+        categoryId: "bakery"
+      },
+    ],
+    icon: "🍞"
   },
   {
     id: "meat-seafood",
     name: "Meat & Seafood",
     nameAr: "اللحوم والمأكولات البحرية",
-    icon: "beef",
     subcategories: [
-      { id: "beef", name: "Beef", nameAr: "لحم بقري", categoryId: "meat-seafood" },
-      { id: "poultry", name: "Poultry", nameAr: "دواجن", categoryId: "meat-seafood" },
-      { id: "pork", name: "Pork", nameAr: "لحم خنزير", categoryId: "meat-seafood" },
-      { id: "lamb", name: "Lamb", nameAr: "لحم ضأن", categoryId: "meat-seafood" },
-      { id: "fish", name: "Fish", nameAr: "سمك", categoryId: "meat-seafood" },
-      { id: "shellfish", name: "Shellfish", nameAr: "محار", categoryId: "meat-seafood" },
-      { id: "plant-based", name: "Plant-Based", nameAr: "بدائل نباتية", categoryId: "meat-seafood" },
+      {
+        id: "beef", name: "Beef", nameAr: "لحم البقر",
+        categoryId: "meat-seafood"
+      },
     ],
-  },
-  {
-    id: "bakery",
-    name: "Bakery",
-    nameAr: "مخبوزات",
-    icon: "bread",
-    subcategories: [
-      { id: "bread", name: "Bread", nameAr: "خبز", categoryId: "bakery" },
-      { id: "pastries", name: "Pastries", nameAr: "معجنات", categoryId: "bakery" },
-      { id: "cakes", name: "Cakes", nameAr: "كيك", categoryId: "bakery" },
-      { id: "cookies", name: "Cookies", nameAr: "بسكويت", categoryId: "bakery" },
-      { id: "gluten-free", name: "Gluten-Free", nameAr: "خالي من الغلوتين", categoryId: "bakery" },
-    ],
-  },
-  {
-    id: "beverages",
-    name: "Beverages",
-    nameAr: "مشروبات",
-    icon: "coffee",
-    subcategories: [
-      { id: "water", name: "Water", nameAr: "ماء", categoryId: "beverages" },
-      { id: "juice", name: "Juice", nameAr: "عصير", categoryId: "beverages" },
-      { id: "soda", name: "Soda", nameAr: "صودا", categoryId: "beverages" },
-      { id: "coffee", name: "Coffee", nameAr: "قهوة", categoryId: "beverages" },
-      { id: "tea", name: "Tea", nameAr: "شاي", categoryId: "beverages" },
-      { id: "alcohol", name: "Alcohol", nameAr: "كحول", categoryId: "beverages" },
-    ],
-  },
-  {
-    id: "snacks",
-    name: "Snacks",
-    nameAr: "وجبات خفيفة",
-    icon: "cookie",
-    subcategories: [
-      { id: "chips", name: "Chips", nameAr: "رقائق", categoryId: "snacks" },
-      { id: "nuts", name: "Nuts & Seeds", nameAr: "مكسرات وبذور", categoryId: "snacks" },
-      { id: "chocolate", name: "Chocolate", nameAr: "شوكولاتة", categoryId: "snacks" },
-      { id: "candy", name: "Candy", nameAr: "حلوى", categoryId: "snacks" },
-      { id: "healthy-snacks", name: "Healthy Snacks", nameAr: "وجبات خفيفة صحية", categoryId: "snacks" },
-    ],
-  },
-  {
-    id: "pantry",
-    name: "Pantry",
-    nameAr: "مؤن",
-    icon: "package",
-    subcategories: [
-      { id: "pasta-rice", name: "Pasta & Rice", nameAr: "معكرونة وأرز", categoryId: "pantry" },
-      { id: "canned-goods", name: "Canned Goods", nameAr: "معلبات", categoryId: "pantry" },
-      { id: "sauces", name: "Sauces & Condiments", nameAr: "صلصات وتوابل", categoryId: "pantry" },
-      { id: "spices", name: "Spices & Seasonings", nameAr: "بهارات وتوابل", categoryId: "pantry" },
-      { id: "baking", name: "Baking Essentials", nameAr: "مستلزمات الخبز", categoryId: "pantry" },
-      { id: "oils", name: "Oils & Vinegars", nameAr: "زيوت وخل", categoryId: "pantry" },
-    ],
-  },
-  {
-    id: "frozen",
-    name: "Frozen Foods",
-    nameAr: "أطعمة مجمدة",
-    icon: "snowflake",
-    subcategories: [
-      { id: "frozen-meals", name: "Frozen Meals", nameAr: "وجبات مجمدة", categoryId: "frozen" },
-      { id: "frozen-pizza", name: "Frozen Pizza", nameAr: "بيتزا مجمدة", categoryId: "frozen" },
-      { id: "frozen-vegetables", name: "Frozen Vegetables", nameAr: "خضروات مجمدة", categoryId: "frozen" },
-      { id: "frozen-fruits", name: "Frozen Fruits", nameAr: "فواكه مجمدة", categoryId: "frozen" },
-      { id: "ice-cream", name: "Ice Cream", nameAr: "آيس كريم", categoryId: "frozen" },
-    ],
+    icon: "🥩"
   },
 ]
 
 export const mockProducts: Product[] = [
   {
-    id: "p1",
+    id: "1",
     name: "Organic Bananas",
     nameAr: "موز عضوي",
     description: "Sweet and fresh organic bananas, perfect for smoothies or a healthy snack.",
     descriptionAr: "موز عضوي حلو وطازج، مثالي للعصائر أو وجبة خفيفة صحية.",
     price: 1.99,
-    images: ["/placeholder.svg?height=400&width=400", "/placeholder.svg?height=400&width=400"],
-    thumbnail: "/placeholder.svg?height=200&width=200",
+    images: [
+      "/images/products/fruits-vegetables/organic-bananas-1.jpg",
+      "/images/products/fruits-vegetables/organic-bananas-2.jpg"
+    ],
+    thumbnail: "/images/products/fruits-vegetables/organic-bananas-thumb.jpg",
     categoryId: "fruits-vegetables",
     subcategoryId: "fresh-fruits",
     tags: ["organic", "vegan"],
@@ -143,15 +120,18 @@ export const mockProducts: Product[] = [
     storeId: "s1",
   },
   {
-    id: "p2",
+    id: "2",
     name: "Fresh Avocados",
     nameAr: "أفوكادو طازج",
     description: "Creamy and ripe avocados, perfect for guacamole or avocado toast.",
     descriptionAr: "أفوكادو كريمي وناضج، مثالي للجواكامولي أو توست الأفوكادو.",
     price: 2.49,
     originalPrice: 2.99,
-    images: ["/placeholder.svg?height=400&width=400", "/placeholder.svg?height=400&width=400"],
-    thumbnail: "/placeholder.svg?height=200&width=200",
+    images: [
+      "/images/products/fruits-vegetables/fresh-avocados-1.jpg",
+      "/images/products/fruits-vegetables/avocado-sliced-1.jpg"
+    ],
+    thumbnail: "/images/products/fruits-vegetables/avocados-thumb.jpg",
     categoryId: "fruits-vegetables",
     subcategoryId: "fresh-fruits",
     tags: ["organic", "vegan"],
@@ -174,14 +154,17 @@ export const mockProducts: Product[] = [
     storeId: "s1",
   },
   {
-    id: "p3",
+    id: "3",
     name: "Whole Milk",
     nameAr: "حليب كامل الدسم",
     description: "Fresh whole milk from grass-fed cows, rich and creamy.",
     descriptionAr: "حليب طازج كامل الدسم من أبقار تتغذى على العشب، غني وكريمي.",
     price: 3.49,
-    images: ["/placeholder.svg?height=400&width=400", "/placeholder.svg?height=400&width=400"],
-    thumbnail: "/placeholder.svg?height=200&width=200",
+    images: [
+      "/images/products/dairy-eggs/whole-milk-bottle-1.jpg",
+      "/images/products/dairy-eggs/milk-pour-1.jpg"
+    ],
+    thumbnail: "/images/products/dairy-eggs/milk-thumb.jpg",
     categoryId: "dairy-eggs",
     subcategoryId: "milk",
     tags: ["local"],
@@ -200,14 +183,17 @@ export const mockProducts: Product[] = [
     storeId: "s2",
   },
   {
-    id: "p4",
+    id: "4",
     name: "Organic Eggs",
     nameAr: "بيض عضوي",
     description: "Farm-fresh organic eggs from free-range chickens.",
     descriptionAr: "بيض عضوي طازج من المزرعة من دجاج طليق.",
     price: 4.99,
-    images: ["/placeholder.svg?height=400&width=400", "/placeholder.svg?height=400&width=400"],
-    thumbnail: "/placeholder.svg?height=200&width=200",
+    images: [
+      "/images/products/dairy-eggs/organic-eggs-1.jpg",
+      "/images/products/dairy-eggs/eggs-carton-1.jpg"
+    ],
+    thumbnail: "/images/products/dairy-eggs/eggs-thumb.jpg",
     categoryId: "dairy-eggs",
     subcategoryId: "eggs",
     tags: ["organic", "local"],
@@ -227,14 +213,17 @@ export const mockProducts: Product[] = [
     storeId: "s1",
   },
   {
-    id: "p5",
+    id: "5",
     name: "Sourdough Bread",
     nameAr: "خبز العجين المخمر",
     description: "Artisanal sourdough bread, freshly baked with a perfect crust.",
     descriptionAr: "خبز العجين المخمر الحرفي، مخبوز طازجًا بقشرة مثالية.",
     price: 5.99,
-    images: ["/placeholder.svg?height=400&width=400", "/placeholder.svg?height=400&width=400"],
-    thumbnail: "/placeholder.svg?height=200&width=200",
+    images: [
+      "/images/products/bakery/sourdough-bread-1.jpg",
+      "/images/products/bakery/bread-sliced-1.jpg"
+    ],
+    thumbnail: "/images/products/bakery/bread-thumb.jpg",
     categoryId: "bakery",
     subcategoryId: "bread",
     tags: ["vegan", "local"],
@@ -256,14 +245,17 @@ export const mockProducts: Product[] = [
     storeId: "s3",
   },
   {
-    id: "p6",
+    id: "6",
     name: "Grass-Fed Ground Beef",
     nameAr: "لحم بقر مفروم من أبقار تتغذى على العشب",
     description: "Premium grass-fed ground beef, perfect for burgers and meatballs.",
     descriptionAr: "لحم بقر مفروم ممتاز من أبقار تتغذى على العشب، مثالي للبرغر وكرات اللحم.",
     price: 8.99,
-    images: ["/placeholder.svg?height=400&width=400", "/placeholder.svg?height=400&width=400"],
-    thumbnail: "/placeholder.svg?height=200&width=200",
+    images: [
+      "/images/products/meat-seafood/ground-beef-1.jpg",
+      "/images/products/meat-seafood/beef-packaging-1.jpg"
+    ],
+    thumbnail: "/images/products/meat-seafood/beef-thumb.jpg",
     categoryId: "meat-seafood",
     subcategoryId: "beef",
     tags: ["local"],
@@ -283,15 +275,18 @@ export const mockProducts: Product[] = [
     storeId: "s2",
   },
   {
-    id: "p7",
+    id: "7",
     name: "Organic Spinach",
     nameAr: "سبانخ عضوية",
     description: "Fresh organic spinach, washed and ready to eat.",
     descriptionAr: "سبانخ عضوية طازجة، مغسولة وجاهزة للأكل.",
     price: 3.99,
     originalPrice: 4.99,
-    images: ["/placeholder.svg?height=400&width=400", "/placeholder.svg?height=400&width=400"],
-    thumbnail: "/placeholder.svg?height=200&width=200",
+    images: [
+      "/images/products/fruits-vegetables/organic-spinach-1.jpg",
+      "/images/products/fruits-vegetables/spinach-bunch-1.jpg"
+    ],
+    thumbnail: "/images/products/fruits-vegetables/spinach-thumb.jpg",
     categoryId: "fruits-vegetables",
     subcategoryId: "fresh-vegetables",
     tags: ["organic", "vegan"],
@@ -313,14 +308,17 @@ export const mockProducts: Product[] = [
     storeId: "s1",
   },
   {
-    id: "p8",
+    id: "8",
     name: "Almond Milk",
     nameAr: "حليب اللوز",
     description: "Unsweetened almond milk, dairy-free and low in calories.",
     descriptionAr: "حليب اللوز غير المحلى، خالي من منتجات الألبان ومنخفض السعرات الحرارية.",
     price: 3.49,
-    images: ["/placeholder.svg?height=400&width=400", "/placeholder.svg?height=400&width=400"],
-    thumbnail: "/placeholder.svg?height=200&width=200",
+    images: [
+      "/images/products/dairy-eggs/almond-milk-1.jpg",
+      "/images/products/dairy-eggs/milk-carton-1.jpg"
+    ],
+    thumbnail: "/images/products/dairy-eggs/almond-milk-thumb.jpg",
     categoryId: "dairy-eggs",
     subcategoryId: "vegan-dairy",
     tags: ["vegan", "dairy-free"],

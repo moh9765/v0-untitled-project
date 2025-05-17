@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useLanguage } from "@/contexts/language-context"
 import { productCategories } from "@/lib/mock-data/products"
+import type { ProductCategory } from "@/lib/types/product"
 import type { ProductSubcategory } from "@/lib/types/product"
 
 interface CategoryScrollProps {
@@ -13,6 +14,7 @@ interface CategoryScrollProps {
   onCategoryChange?: (categoryId: string) => void
   selectedSubcategory?: string
   onSubcategoryChange?: (subcategoryId: string) => void
+  categories: ProductCategory[];
 }
 
 export function CategoryScroll({
@@ -106,17 +108,21 @@ export function CategoryScroll({
 
       <div className="flex items-center mb-4">
         <div ref={scrollRef} className="flex overflow-x-auto py-2 px-1 space-x-2 hide-scrollbar">
-          {productCategories.map((category) => (
-            <Button
-              key={category.id}
-              id={`category-${category.id}`}
-              variant={selectedCategory === category.id ? "default" : "outline"}
-              className={`whitespace-nowrap ${selectedCategory === category.id ? "font-bold" : ""}`}
-              onClick={() => handleCategoryClick(category.id)}
-            >
-              {isRTL && category.nameAr ? category.nameAr : category.name}
-            </Button>
-          ))}
+          {Array.isArray(productCategories) && productCategories.length > 0 ? (
+            productCategories.map((category: ProductCategory) => (
+              <Button
+                key={category.id}
+                id={`category-${category.id}`}
+                variant={selectedCategory === category.id ? "default" : "outline"}
+                className={`whitespace-nowrap ${selectedCategory === category.id ? "font-bold" : ""}`}
+                onClick={() => handleCategoryClick(category.id)}
+              >
+                {isRTL && category.nameAr ? category.nameAr : category.name}
+              </Button>
+            ))
+          ) : (
+            <span className="text-slate-400">No categories</span>
+          )}
         </div>
 
         <DropdownMenu>
@@ -127,15 +133,19 @@ export function CategoryScroll({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
-            {productCategories.map((category) => (
-              <DropdownMenuItem
-                key={category.id}
-                className={selectedCategory === category.id ? "font-bold bg-muted" : ""}
-                onClick={() => handleCategoryClick(category.id)}
-              >
-                {isRTL && category.nameAr ? category.nameAr : category.name}
-              </DropdownMenuItem>
-            ))}
+            {Array.isArray(productCategories) && productCategories.length > 0 ? (
+              productCategories.map((category: ProductCategory) => (
+                <DropdownMenuItem
+                  key={category.id}
+                  className={selectedCategory === category.id ? "font-bold bg-muted" : ""}
+                  onClick={() => handleCategoryClick(category.id)}
+                >
+                  {isRTL && category.nameAr ? category.nameAr : category.name}
+                </DropdownMenuItem>
+              ))
+            ) : (
+              <DropdownMenuItem disabled>No categories</DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -25,7 +25,39 @@
     --ring: 122 68% 34%;
     --radius: 0.5rem;
   }
+  :root {
+    --neon-primary: #6C63FF;
+    --neon-secondary: #00FFE4;
+    --space-dark: #0F0F0F;
+  }
 
+  .hologram-header {
+    @apply p-6 border-b border-neon-primary/20;
+    background: linear-gradient(
+      45deg,
+      var(--space-dark) 0%,
+      rgba(45,43,92,0.8) 100%
+    );
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+  .neon-text {
+    text-shadow: 0 0 10px var(--neon-primary);
+  }
+
+  .quantum-nav {
+    @apply flex justify-center gap-4 p-4;
+    border-image: linear-gradient(90deg, transparent, var(--neon-primary), transparent) 1;
+  }
+
+  .hologram-card {
+    @apply p-6 rounded-xl;
+    background: rgba(255,255,255,0.05);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--neon-primary);
+  }
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -365,4 +397,153 @@
   100% {
     background-position: -200% 0;
   }
+}
+
+/* Glass and neon effects for rewards dashboard */
+.bg-glass {
+  background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.dark .bg-glass {
+  background: rgba(15, 15, 15, 0.3);
+}
+
+.border-neon {
+  border: 1px solid rgba(108, 99, 255, 0.3);
+}
+
+.shadow-holographic {
+  box-shadow: 0 8px 32px rgba(108, 99, 255, 0.1);
+}
+
+.dark .shadow-holographic {
+  box-shadow: 0 8px 32px rgba(0, 255, 228, 0.1);
+}
+
+/* Enhanced card styles for driver dashboard */
+.card-enhanced {
+  @apply rounded-xl border shadow-sm transition-all duration-300;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.card-enhanced:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.dark .card-enhanced {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.dark .card-enhanced:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Gold/Purple accent styles */
+.accent-gold {
+  background: linear-gradient(135deg, #FFD700 0%, #FFC107 100%);
+  color: #000;
+}
+
+.accent-purple {
+  background: linear-gradient(135deg, #6C63FF 0%, #5A4FCF 100%);
+  color: #fff;
+}
+
+.border-accent-gold {
+  border-color: #FFD700;
+}
+
+.border-accent-purple {
+  border-color: #6C63FF;
+}
+
+/* Status badge enhancements */
+.status-badge {
+  @apply px-2 py-1 rounded-full text-xs font-medium transition-all duration-300;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.status-badge-success {
+  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  color: white;
+}
+
+.status-badge-warning {
+  background: linear-gradient(135deg, #FFC107 0%, #FF9800 100%);
+  color: #000;
+}
+
+.status-badge-info {
+  background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+  color: white;
+}
+
+.status-badge-danger {
+  background: linear-gradient(135deg, #F44336 0%, #D32F2F 100%);
+  color: white;
+}
+
+/* Milestone positions for rewards dashboard */
+.milestone-position-0 {
+  left: 0%;
+}
+
+.milestone-position-33 {
+  left: 33%;
+}
+
+.milestone-position-66 {
+  left: 66%;
+}
+
+.milestone-position-100 {
+  left: 100%;
+}
+
+/* Current position classes */
+.position-0 {
+  left: 0%;
+}
+
+.position-10 {
+  left: 10%;
+}
+
+.position-20 {
+  left: 20%;
+}
+
+.position-30 {
+  left: 30%;
+}
+
+.position-40 {
+  left: 40%;
+}
+
+.position-50 {
+  left: 50%;
+}
+
+.position-60 {
+  left: 60%;
+}
+
+.position-70 {
+  left: 70%;
+}
+
+.position-80 {
+  left: 80%;
+}
+
+.position-90 {
+  left: 90%;
+}
+
+.position-100 {
+  left: 100%;
 }

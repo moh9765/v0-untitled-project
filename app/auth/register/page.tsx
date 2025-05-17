@@ -14,6 +14,7 @@ import { ArrowLeft, Loader2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useLanguage } from "@/contexts/language-context"
 import { LanguageSelector } from "@/components/language-selector"
+import { createUser } from "@/lib/db/users" 
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -42,7 +43,7 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
+  
     if (formData.password !== formData.confirmPassword) {
       toast({
         title: "Passwords don't match",
@@ -51,25 +52,30 @@ export default function RegisterPage() {
       })
       return
     }
-
+  
     setIsLoading(true)
-
-    // Simulate registration
+  
     try {
-      // In a real app, this would be an API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-
+      // Call the createUser function with the form data
+      const newUser = await createUser({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role
+      })
+  
       toast({
         title: "Registration successful",
         description: "Your account has been created. You can now sign in.",
       })
-
-      // Redirect to login
+  
+      // Redirect to login with the same role
       router.push(`/auth/login?role=${formData.role}`)
-    } catch (error) {
+    } catch (error: any) {
+      console.error("Registration error:", error)
       toast({
         title: "Registration failed",
-        description: "There was a problem creating your account. Please try again.",
+        description: error.message || "There was a problem creating your account. Please try again.",
         variant: "destructive",
       })
     } finally {

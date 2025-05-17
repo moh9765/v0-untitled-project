@@ -11,6 +11,7 @@ import { LanguageSelector } from "@/components/language-selector"
 import { Switch } from "@/components/ui/switch"
 import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
+import { logout } from "@/lib/auth-utils"
 
 export default function ProfilePage() {
   const router = useRouter()
@@ -47,20 +48,44 @@ export default function ProfilePage() {
     setDarkMode(theme === "dark")
   }, [router])
 
-  const handleLogout = () => {
-    // Clear authentication data
+const handleLogout = async () => {
+  try {
+    toast({
+      title: "Logging out...",
+      description: "Please wait while we log you out.",
+    })
+
+    // ✅ CLEAR localStorage
+    localStorage.removeItem("is_authenticated")
     localStorage.removeItem("user_role")
     localStorage.removeItem("user_email")
-    localStorage.removeItem("is_authenticated")
+    localStorage.removeItem("theme")
+    localStorage.removeItem("favorites") // if you're storing favorites
 
+    // Or clear all (only if safe to do so):
+    // localStorage.clear()
+
+    // Perform server-side logout
+    await logout("/")
+
+    // This toast won't show due to redirect
     toast({
       title: "Logged out",
       description: "You have been successfully logged out.",
     })
+  } catch (error) {
+    console.error("Logout error:", error)
 
-    // Redirect to home page
-    router.push("/")
+    toast({
+      title: "Logout failed",
+      description: "There was a problem logging you out. Trying emergency logout.",
+      variant: "destructive",
+    })
+
+    // Fallback redirect
+    window.location.href = "/auth/login"
   }
+}
 
   const toggleDarkMode = () => {
     const newMode = !darkMode

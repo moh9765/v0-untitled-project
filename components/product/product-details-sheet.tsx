@@ -1,165 +1,99 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { useCart } from "@/hooks/use-cart"
-import type { Product } from "@/lib/types/product"
-import { useTranslation } from "@/contexts/language-context"
 import Image from "next/image"
-import { Minus, Plus, Star } from "lucide-react"
+import { Heart } from "lucide-react"
+import { useLanguage } from "@/contexts/language-context"
+import { useFavorites } from "@/hooks/useFavorites"
+import type { Product } from "@/lib/types/product"
 
 interface ProductDetailsSheetProps {
-  product: Product | null
+  product: Product
   isOpen: boolean
   onClose: () => void
-  userId?: string | null
 }
 
-export function ProductDetailsSheet({ product, isOpen, onClose, userId }: ProductDetailsSheetProps) {
-  const { t } = useTranslation()
-  const { addToCart } = useCart()
-  const [quantity, setQuantity] = useState(1)
+export function ProductDetailsSheet({
+  product,
+  isOpen,
+  onClose
+}: ProductDetailsSheetProps) {
+  const { t, isRTL } = useLanguage()
+  const { toggleFavorite, favorites } = useFavorites()
 
-  // Reset quantity when product changes
-  useEffect(() => {
-    setQuantity(1)
-  }, [product])
+  // Determine which text to display based on language
+  const displayName = isRTL && product.nameAr ? product.nameAr : product.name
+  const displayDescription = isRTL && product.descriptionAr ? product.descriptionAr : product.description
 
-  // Track user behavior when viewing product details
-  useEffect(() => {
-    if (isOpen && product && userId) {
-      try {
-        fetch("/api/track", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId,
-            eventType: "view_product",
-            data: {
-              productId: product.id,
-              categoryId: product.categoryId,
-              subcategoryId: product.subcategoryId,
-              tags: product.tags,
-            },
-          }),
-        }).catch((err) => {
-          console.error("Error tracking product view:", err)
-          // Silently fail - tracking errors shouldn't affect the user experience
-        })
-      } catch (error) {
-        console.error("Error tracking product view:", error)
-      }
-    }
-  }, [isOpen, product, userId])
+  // Check if product is in favorites
+  const isFavorited = favorites.some(f =>
+    f.type === "product" && f.id === product.id
+  )
 
-  const handleAddToCart = () => {
-    if (product) {
-      addToCart({
-        ...product,
-        quantity,
-      })
-
-      // Track user behavior when adding to cart
-      if (userId) {
-        try {
-          fetch("/api/track", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              userId,
-              eventType: "add_to_cart",
-              data: {
-                productId: product.id,
-                quantity,
-                categoryId: product.categoryId,
-                subcategoryId: product.subcategoryId,
-                tags: product.tags,
-              },
-            }),
-          }).catch((err) => {
-            console.error("Error tracking add to cart:", err)
-            // Silently fail - tracking errors shouldn't affect the user experience
-          })
-        } catch (error) {
-          console.error("Error tracking add to cart:", error)
-        }
-      }
-
-      onClose()
-    }
+  // Handle favorite toggle
+  const handleToggleFavorite = () => {
+    toggleFavorite({
+      ...product,
+      type: "product"
+    })
   }
 
-  if (!product) return null
-
   return (
-    <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <SheetContent side="bottom" className="h-[90vh] rounded-t-xl overflow-auto">
-        <SheetHeader className="mb-4">
-          <SheetTitle>{product.name}</SheetTitle>
-        </SheetHeader>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent
+        className="max-w-sm"
+        dir={isRTL ? "rtl" : "ltr"}  // Set text direction
+      >
+        <DialogHeader className={`${isRTL ? "text-right" : "text-left"} flex items-center justify-between`}>
+          <DialogTitle>{displayName}</DialogTitle>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 rounded-full"
+            onClick={handleToggleFavorite}
+          >
+            <Heart
+              className={`h-5 w-5 transition-all duration-300 ${
+                isFavorited
+                  ? "fill-red-500 text-red-500 scale-110"
+                  : "text-slate-600 hover:scale-110"
+              }`}
+            />
+          </Button>
+        </DialogHeader>
 
-        <div className="space-y-6">
-          <div className="relative h-64 w-full overflow-hidden rounded-lg">
+        <div className={`space-y-4 ${isRTL ? "text-right" : "text-left"}`}>
+          <div className="relative w-full h-48 rounded overflow-hidden">
             <Image
-              src={product.image || "/placeholder.svg?height=400&width=400"}
-              alt={product.name}
+              src={product.thumbnail || "/placeholder.jpg"}
+              alt={displayName}
               fill
               className="object-cover"
+              priority
             />
           </div>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
-              <span className="ml-1 text-sm font-medium">{product.rating}</span>
-              <span className="ml-1 text-sm text-gray-500">
-                ({product.reviews} {t("reviews")})
-              </span>
-            </div>
-            <div className="text-lg font-bold">${product.price.toFixed(2)}</div>
-          </div>
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            {displayDescription}
+          </p>
 
-          <p className="text-gray-700">{product.description}</p>
-
-          {product.tags && product.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {product.tags.map((tag) => (
-                <span key={tag} className="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">
-                  {tag}
+          <div className={`flex items-center justify-between ${isRTL ? "flex-row-reverse" : ""}`}>
+            <span className="text-lg font-bold text-primary">
+              ${product.price.toFixed(2)}
+              {product.originalPrice && (
+                <span className="text-sm text-slate-500 line-through ml-2">
+                  ${product.originalPrice.toFixed(2)}
                 </span>
-              ))}
-            </div>
-          )}
+              )}
+            </span>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center border rounded-lg overflow-hidden">
-              <button
-                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="px-3 py-2 bg-gray-100 hover:bg-gray-200"
-                aria-label={t("Decrease quantity")}
-              >
-                <Minus className="h-4 w-4" />
-              </button>
-              <span className="px-4 py-2">{quantity}</span>
-              <button
-                onClick={() => setQuantity(quantity + 1)}
-                className="px-3 py-2 bg-gray-100 hover:bg-gray-200"
-                aria-label={t("Increase quantity")}
-              >
-                <Plus className="h-4 w-4" />
-              </button>
-            </div>
-            <Button onClick={handleAddToCart} className="px-6">
-              {t("Add to Cart")} - ${(product.price * quantity).toFixed(2)}
+            <Button onClick={() => console.log("Add to cart", product.id)}>
+              {t("product.add_to_cart")}
             </Button>
           </div>
         </div>
-      </SheetContent>
-    </Sheet>
+      </DialogContent>
+    </Dialog>
   )
 }

@@ -94,3 +94,23 @@ export type Location = {
   type?: "home" | "work" | "other"
   isDefault?: boolean
 }
+// lib/types.ts
+export interface OrderItem {
+  id: number
+  product_id: string
+  quantity: number
+  price: number
+  product_name: string
+  product_name_ar: string
+  product_thumbnail?: string
+}
+
+export interface Order {
+  id: number
+  customer_id: number
+  status: string
+  total_amount: number
+  created_at: string
+  driver_id?: number
+  items: OrderItem[]
+}

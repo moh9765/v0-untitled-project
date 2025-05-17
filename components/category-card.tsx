@@ -24,6 +24,7 @@ import {
   Package,
 } from "lucide-react"
 import Link from "next/link"
+import { TranslationKey } from "@/lib/i18n/translations"
 
 interface CategoryCardProps {
   category: Category
@@ -70,14 +71,17 @@ export function CategoryCard({ category, size = "md" }: CategoryCardProps) {
     lg: "h-10 w-10",
   }
 
+  // Determine the link based on category type
+  const linkHref = category.id === "groceries" ? "/marketplace" : `/category/${category.id}`
+
   return (
-    <Link href={`/category/${category.id}`}>
+    <Link href={linkHref}>
       <Card
         className={`${sizeClasses[size]} flex flex-col items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer rounded-xl`}
       >
         <CardContent className="flex flex-col items-center justify-center p-2">
           <IconComponent className={`${iconSizes[size]} text-sky-500 mb-2`} />
-          <span className="text-center font-medium text-sm">{t(category.nameKey)}</span>
+          <span className="text-center font-medium text-sm">{t(category.nameKey as TranslationKey)}</span>
         </CardContent>
       </Card>
     </Link>

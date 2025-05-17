@@ -9,6 +9,7 @@ import { useRecommendations } from "@/hooks/use-recommendations"
 export type CartItem = {
   product: Product
   quantity: number
+  price?: number // Optional price for the item
 }
 
 type CartContextType = {

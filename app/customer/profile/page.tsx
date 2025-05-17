@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { MobileNav } from "@/components/mobile-nav"
-import { User, Globe, Moon, Bell, LogOut } from "lucide-react"
+import { User, Globe, Moon, Bell, LogOut, ArrowLeft } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import { LanguageSelector } from "@/components/language-selector"
 import { Switch } from "@/components/ui/switch"
 import { useToast } from "@/hooks/use-toast"
+import { logout } from "@/lib/auth-utils"
 
 export default function ProfilePage() {
   const router = useRouter()
@@ -46,19 +47,36 @@ export default function ProfilePage() {
     setDarkMode(theme === "dark")
   }, [router])
 
-  const handleLogout = () => {
-    // Clear authentication data
-    localStorage.removeItem("user_role")
-    localStorage.removeItem("user_email")
-    localStorage.removeItem("is_authenticated")
+  const handleLogout = async () => {
+    try {
+      // Show loading toast
+      toast({
+        title: "Logging out...",
+        description: "Please wait while we log you out.",
+      })
 
-    toast({
-      title: "Logged out",
-      description: "You have been successfully logged out.",
-    })
+      // Use the comprehensive logout function
+      await logout("/auth/login")
 
-    // Redirect to home page
-    router.push("/")
+      // Note: The toast below won't be shown because we're redirecting
+      toast({
+        title: "Logged out",
+        description: "You have been successfully logged out.",
+      })
+    } catch (error) {
+      console.error("Logout error:", error)
+
+      // Show error toast
+      toast({
+        title: "Logout failed",
+        description: "There was a problem logging you out. Trying emergency logout.",
+        variant: "destructive",
+      })
+
+      // Emergency fallback - direct redirect to login page
+      // The login page has its own logout mechanism that will clear cookies
+      window.location.href = "/auth/login";
+    }
   }
 
   const toggleDarkMode = () => {
@@ -97,7 +115,10 @@ export default function ProfilePage() {
       {/* Header */}
       <header className="sticky top-0 z-10 border-b bg-white dark:bg-slate-950 dark:border-slate-800">
         <div className="flex h-16 items-center px-4">
-          <MobileNav role="customer" />
+          <Button variant="ghost" size="icon" onClick={() => router.back()} className="mr-2">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <h1 className="text-lg font-medium">{t("settings.title")}</h1>
           <div className="ml-auto flex items-center space-x-4">
             <LanguageSelector />
             <span className="text-sm font-medium">Hi, {userName}</span>

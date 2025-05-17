@@ -1,3 +1,16 @@
+export const futureColors = {
+  cyberBlue: '#00FFE4',
+  neonPink: '#FF2E63',
+  hologram: 'rgba(108,99,255,0.3)',
+  darkMatter: '#0F0F0F',
+  spacePurple: '#2D2B5C'
+};
+
+// عدل تأثيرات الظلال
+export const shadows = {
+  neon: '0 0 15px rgba(0,255,228,0.5)',
+  holographic: '0 8px 32px rgba(108,99,255,0.1)'
+};
 export const theme = {
   colors: {
     primary: {

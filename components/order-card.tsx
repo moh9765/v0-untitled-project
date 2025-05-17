@@ -1,29 +1,39 @@
-"use client"
+"use client";
 
-import { useLanguage } from "@/contexts/language-context"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Clock, MapPin, Package, ArrowRight } from "lucide-react"
-import Link from "next/link"
-import type { Order } from "@/lib/types"
+import { useLanguage } from "@/contexts/language-context";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Clock, MapPin, Package, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import type { Order } from "@/lib/types";
 
 interface OrderCardProps {
-  order: Order
+  order: Order;
 }
 
-export function OrderCard({ order }: OrderCardProps) {
-  const { t, isRTL } = useLanguage()
+// Helper to clean and safely convert date strings
+const cleanDateString = (dateString?: string): string => {
+  if (!dateString || typeof dateString !== "string") return "";
+  return dateString.replace(" ", "T").split(".")[0];
+};
 
-  // Format the date
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return new Intl.DateTimeFormat("en-US", {
+export function OrderCard({ order }: OrderCardProps) {
+  const { t, isRTL } = useLanguage();
+
+  const formatDate = (dateString?: string) => {
+    const cleaned = cleanDateString(dateString);
+    if (!cleaned) return t("common.unknownDate"); // fallback if invalid
+    const date = new Date(cleaned);
+    if (isNaN(date.getTime())) return t("common.unknownDate");
+    return new Intl.DateTimeFormat("en", {
+      weekday: "short",
+      year: "numeric",
       month: "short",
       day: "numeric",
       hour: "numeric",
       minute: "numeric",
-    }).format(date)
-  }
+    }).format(date);
+  };
 
   return (
     <Card className="overflow-hidden">
@@ -35,7 +45,7 @@ export function OrderCard({ order }: OrderCardProps) {
             </div>
             <div>
               <h3 className="font-medium">{order.id}</h3>
-              <p className="text-sm text-slate-500">{formatDate(order.date)}</p>
+              <p className="text-sm text-slate-500">{formatDate(order.created_at)}</p>
             </div>
           </div>
           <span
@@ -86,5 +96,5 @@ export function OrderCard({ order }: OrderCardProps) {
         </Button>
       </CardContent>
     </Card>
-  )
+  );
 }

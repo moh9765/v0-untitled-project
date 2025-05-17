@@ -1,5 +1,16 @@
 // Translation keys for the application
 export type TranslationKey =
+  | "auth.register"
+  | "auth.createCustomerAccount"
+  | "auth.createDriverAccount"
+  | "auth.fullName"
+  | "auth.email"
+  | "auth.password"
+  | "auth.confirmPassword"
+  | "common.loading"
+  | "auth.createAccount"
+  | "auth.alreadyHaveAccount"
+  | "auth.login"
   | "app.name"
   | "app.description"
   | "app.language.english"
@@ -13,6 +24,16 @@ export type TranslationKey =
   | "auth.password"
   | "auth.confirmPassword"
   | "auth.fullName"
+  | "driver.deliveries"
+  | "driver.transactions"
+  | "driver.orderID"
+  | "driver.noTransactionHistory"
+  | "driver.profile"
+  | "driver.wallet"
+  | "driver.history"
+  | "transaction.status.completed"
+  | "transaction.status.pending"
+  | "transaction.status.failed"
   | "auth.createAccount"
   | "auth.alreadyHaveAccount"
   | "auth.dontHaveAccount"
@@ -25,6 +46,8 @@ export type TranslationKey =
   | "auth.userType"
   | "auth.userTypeClient"
   | "auth.userTypeDriver"
+  | "auth.loginCustomerAccount"
+  | "auth.loginDriverAccount"
   | "home.welcome"
   | "home.chooseRole"
   | "home.continueAsCustomer"
@@ -47,6 +70,11 @@ export type TranslationKey =
   | "categories.pharmacy"
   | "categories.parcel"
   | "categories.seeAll"
+  | "categories.more"
+  | "categories.emptyCart"
+  | "categories.addGrocery"
+  | "categories.addToCart"
+  | "categories.remove"
   | "subcategories.food.pizza"
   | "subcategories.food.burgers"
   | "subcategories.food.sushi"
@@ -121,6 +149,40 @@ export type TranslationKey =
   | "dashboard.activeDeliveries"
   | "dashboard.noActiveDeliveries"
   | "dashboard.quickActions"
+  | "dashboard.rewards"
+  | "dashboard.title"
+  | "dashboard.recentOrders"
+  | "dashboard.dealTitle"
+  | "dashboard.orderHistory"
+  | "dashboard.quickReorder"
+  | "dashboard.claimOffer"
+  | "dashboard.viewDetails"
+  | "dashboard.personalizedDeals"
+  | "dashboard.reorder"
+  | "dashboard.trackOrder"
+  | "dashboard.dealDescription"
+  | "dashboard.loyaltyPoints"
+  | "dashboard.nextReward"
+  | "dashboard.activeOrders"
+  | "dashboard.completedOrders"
+  | "dashboard.track"
+  | "dashboard.noActiveOrders"
+  | "dashboard.startShopping"
+  | "dashboard.noCompletedOrders"
+  | "dashboard.openOrders"
+  | "dashboard.noOpenOrders"
+  | "dashboard.openOrdersDescription"
+  | "orders.orderId"
+  | "orders.customerDetails"
+  | "orders.items"
+  | "orders.total"
+  | "orders.deliveryAddress"
+  | "orders.estimatedDelivery"
+  | "orders.statusOpen"
+  | "common.details"
+  | "common.process"
+  | "common.newest"
+  | "common.oldest"
   | "delivery.newDelivery"
   | "delivery.trackOrders"
   | "delivery.orderHistory"
@@ -144,6 +206,20 @@ export type TranslationKey =
   | "delivery.accept"
   | "delivery.decline"
   | "delivery.distance"
+  | "delivery.deliveredOn"
+  | "delivery.myDeliveries"
+  | "delivery.orderDetails"
+  | "delivery.calculating"
+  | "delivery.markInTransit"
+  | "delivery.markDelivered"
+  | "delivery.cancel"
+  | "common.backToDashboard"
+  | "common.retry"
+  | "errors.error"
+  | "errors.fetchFailed"
+  | "errors.updateFailed"
+  | "orders.statusUpdated"
+  | "orders.orderStatus"
   | "parcel.title"
   | "parcel.send"
   | "parcel.receive"
@@ -223,6 +299,7 @@ export type TranslationKey =
   | "common.min"
   | "common.off"
   | "common.free"
+  | "common.viewDetails"
   | "recommendations.error"
   | "recommendations.refresh"
   | "recommendations.noRecommendations"
@@ -233,11 +310,251 @@ export type TranslationKey =
   | "common.showMore"
   | "common.showLess"
   | "recommendations.tryAgain"
+  | "Delivered"
+  | "registerAs"
+  | "name"
+  | "email"
+  | "password"
+  | "confirmPassword"
+  | "alreadyHaveAccount"
+  | "login"
+  | "some.other.key"
+  | "another.key"
+  | "cart.items"
+  | "marketplace.items"
+  | "marketplace.allProducts"
+  | "marketplace.title"
+  | "cart.yourCart"
+  | "cart.startShopping"
+  | "cart.subtotal"
+  | "cart.promoCode"
+  | "cart.apply"
+  | "cart.checkout"
+  | "cart.remove"
+  | "cart.empty"
+  | "product.organic"
+  | "category.nameKey"
+  | "product.vegan"
+  | "Decrease quantity"
+  | "Increase quantity"
+  | "Add to Cart"
+  | "reviews"
+  | "home.goodMorning"
+  | "home.goodAfternoon"
+  | "home.goodEvening"
+  | "home.searchPlaceholder"
+  | "home.categories"
+  | "home.seeAll"
+  | "home.recentOrders"
+  | "home.nearbyVendors"
+  | "home.popularVendors"
+  | "delivery.newDelivery"
+  | "app.name"
+  | "navigation.inbox"
+  | "navigation.favorites"
+  | "home.goodMorning"
+  | "home.goodAfternoon"
+  | "home.goodEvening"
+  | "home.searchPlaceholder"
+  | "home.dailyDeal"
+  | "home.dealDescription"
+  | "home.shopNow"
+  | "home.categories"
+  | "home.seeAll"
+  | "home.recentOrders"
+  | "home.nearbyVendors"
+  | "home.popularVendors"
+  | "delivery.newDelivery"
+  | "home.smartSuggestion"
+  | "navigation.messages"
+  | "messages.empty"
+  | "common.loading"
+  | "search.placeholder"
+  | "home.categories"
+  | "vendor.results"
+  | "search.noResults"
+  | "search.tryAgain"
+  | "filter.byRating"
+  | "filter.byDistance"
+  | "filter.byPopularity"
+  | "byRating"
+  | "byDistance"
+  | "byPopularity"
+  | "common.loading"
+  | "search.placeholder"
+  | "filter.byRating"
+  | "filter.byDistance"
+  | "filter.byPopularity"
+  | "home.categories"
+  | "vendor.results"
+  | "search.noResults"
+  | "search.tryAgain"
+  | "search.noNearbyRestaurants"
+  | "home.nearbyRestaurants"
+  | "locationAccess"
+  | "geoNotSupported"
+  | "error.title"
+  | "error.byRating"
+  | "error.byDistance"
+  | "error.byPopularity"
+  | "error.locationAccess"
+  | "error.geoNotSupported"
+  |"errors.locationAccess"
+  | "errors.geoNotSupported"
+  | "filter.title"
+  |"categories.cart"
+  |"dashboard.viewRewards"
+  | "rewards.availablePoints"
+  | "rewards.totalSpent"
+  | "rewards.pointsToNextLevel"
+  | "rewards.earned"
+  | "rewards.redeemed"
+  | "rewards.expired"
+  | "rewards.adjusted"
+  | "rewards.points"
+  | "rewards.freeDelivery"
+  | "rewards.freeDeliveryDesc"
+  | "rewards.discount10"
+  | "rewards.discount10Desc"
+  | "rewards.discount25"
+  | "rewards.discount25Desc"
+  | "rewards.redeem"
+  | "rewards.transactionHistory"
+  | "rewards.redeemError"
+  | "rewards.insufficientPoints"
+  | "rewards.redeemErrorMessage"
+  | "rewards.levelBenefits"
+  | "rewards.levelBenefitsDesc"
+  | "rewards.bronzeDesc"
+  | "rewards.silverDesc"
+  | "rewards.goldDesc"
+  | "rewards.platinumDesc"
+  | "rewards.current"
+  | "rewards.availableRewards"
+  | "rewards.redeemSuccess"
+| "rewards.redeemSuccessMessage"
+| "rewards.title"
+| "rewards.redeemError"
+| "rewards.insufficientPoints"
+| "rewards.redeemErrorMessage"
+| "rewards.levelBenefits"
+| "rewards.levelBenefitsDesc"
+| "rewards.bronzeDesc"
+| "rewards.silverDesc"
+| "rewards.goldDesc"
+| "rewards.platinumDesc"
+| "rewards.current"
+| "rewards.availableRewards"
+| "rewards.level"
+| "rewards.maxLevelReached"
+| "dashboard.earnMore"
+|"navigation.checkout"
+|"errors.fetchFailed"
+|"errors.failedProducts"
+|"common.Retry"
+|"common.refresh"
+|"loading.message"
+|"errors.noProducts"
+| "favorites.products"
+|  "favorites.vendors"
+|  "favorites.empty"
+|  "navigation.browse"
+|  "favorites.all"
+|  "favorites.categories"
+|  "favorites.collections"
+|  "favorites.myCollections"
+|  "favorites.newCollection"
+|  "favorites.items"
+|  "favorites.collectionProducts"
+|  "favorites.collectionVendors"
+|  "favorites.collectionCategories"
+|  "favorites.addToCollection"
+|  "favorites.emptyCollection"
+|  "favorites.noCollections"
+|  "favorites.createCollection"
+|  "favorites.createCollectionDesc"
+|  "favorites.collectionName"
+|  "favorites.collectionNamePlaceholder"
+|  "favorites.collectionNameAr"
+|  "favorites.collectionNameArPlaceholder"
+|  "favorites.collectionDesc"
+|  "favorites.collectionDescPlaceholder"
+|  "favorites.collectionDescAr"
+|  "favorites.collectionDescArPlaceholder"
+|  "favorites.selectCollection"
+|  "filters.category"
+|  "filters.allCategories"
+|  "filters.minRating"
+|  "filters.default"
+|  "filters.nameAsc"
+|  "filters.nameDesc"
+|  "filters.priceAsc"
+|  "filters.priceDesc"
+|  "filters.ratingAsc"
+|  "filters.ratingDesc"
+|  "common.create"
+|  "filters.title"
+|  "filters.tags"
+|  "filters.additional"
+|  "filters.inStock"
+|  "filters.onSale"
+|  "filters.clearAll"
+|  "product.glutenFree"
+|  "product.dairyFree"
+|  "product.local"
+|  "product.imported"
+|  "filters.price-asc"
+|  "filters.price-desc"
+|  "filters.rating-desc"
+|  "filters.name-asc"
+|  "driver.deliveries"
+|  "driver.transactions"
+|  "driver.orderID"
+|  "driver.noTransactionHistory"
+|  "driver.profile"
+|  "driver.wallet"
+|  "driver.history"
+|  "transaction.status.completed"
+|  "transaction.status.pending"
+|  "transaction.status.failed"
+|  "common.greeting"
+|  "common.viewDetails"
+| "driver.historyAndTransactions"
+|"delivery.noCompletedDeliveries"
+|"delivery.completed"
+|"delivery.customer"
+|"delivery.earnings"
+
+  ;
 
 // English translations
 export const enTranslations: Record<TranslationKey, string> = {
   "app.name": "Deliverzler",
+  "some.other.key": "some.other",
+  "product.vegan": "Vegan",
+  "categories.more": "More",
+  "categories.emptyCart": "Your cart is empty.",
+  "categories.addGrocery": "Add a grocery item",
+  "categories.addToCart": "Add to Cart",
+  "categories.remove": "Remove",
+  "another.key": "another",
+  "cart.items": "items",
+  "Decrease quantity": "Decrease quantity",
+  "Increase quantity": "Increase quantity",
+  "Add to Cart": "Add to Cart",
+  "reviews": "reviews",
+  "cart.yourCart": "Your Cart",
+  "cart.startShopping": "Start Shopping",
+  "cart.subtotal": "Subtotal",
+  "cart.promoCode": "Promo Code",
+  "cart.apply": "Apply",
+  "cart.checkout": "Checkout",
+  "cart.remove": "Remove",
+  "product.organic": "Organic",
+  "cart.empty": "Your cart is empty",
   "app.description": "Multi-service delivery platform",
+  "auth.createCustomerAccount": "Create Customer Account",
+  "auth.createDriverAccount": "Create Driver Account",
   "app.language.english": "English",
   "app.language.arabic": "العربية",
   "app.language.select": "Select Language",
@@ -333,7 +650,6 @@ export const enTranslations: Record<TranslationKey, string> = {
   "filters.vegan": "Vegan",
   "filters.halal": "Halal",
   "filters.glutenFree": "Gluten Free",
-  "filters.apply": "Apply Filters",
   "filters.reset": "Reset",
   "navigation.home": "Home",
   "navigation.favorites": "Favorites",
@@ -357,6 +673,37 @@ export const enTranslations: Record<TranslationKey, string> = {
   "dashboard.activeDeliveries": "Active Deliveries",
   "dashboard.noActiveDeliveries": "You don't have any active deliveries",
   "dashboard.quickActions": "Quick Actions",
+  "dashboard.loyaltyPoints": "Loyalty Points",
+  "dashboard.nextReward": "Next Reward",
+  "dashboard.orderHistory": "Order History",
+  "dashboard.trackOrder": "Track Order",
+  "dashboard.rewards": "Rewards",
+  "dashboard.reorder": "Reorder",
+  "dashboard.dealTitle": "Deal Title",
+  "dashboard.dealDescription": "Description of the deal",
+  "dashboard.claimOffer": "Claim Offer",
+  "dashboard.quickReorder": "Quick Reorder",
+  "dashboard.personalizedDeals": "Personalized Deals",
+  "dashboard.activeOrders": "Active Orders",
+  "dashboard.completedOrders": "Completed Orders",
+  "dashboard.track": "Track",
+  "dashboard.noActiveOrders": "You have no active orders.",
+  "dashboard.startShopping": "Start Shopping",
+  "dashboard.noCompletedOrders": "You have no completed orders.",
+  "dashboard.openOrders": "Open Orders",
+  "dashboard.noOpenOrders": "No open orders",
+  "dashboard.openOrdersDescription": "Open orders will appear here when customers place new orders.",
+  "orders.orderId": "Order ID",
+  "orders.customerDetails": "Customer Details",
+  "orders.items": "Items",
+  "orders.total": "Total",
+  "orders.deliveryAddress": "Delivery Address",
+  "orders.estimatedDelivery": "Estimated Delivery",
+  "orders.statusOpen": "Open",
+  "common.details": "Details",
+  "common.process": "Process",
+  "common.newest": "Newest",
+  "common.oldest": "Oldest",
   "delivery.newDelivery": "New Delivery",
   "delivery.trackOrders": "Track Orders",
   "delivery.orderHistory": "Order History",
@@ -380,6 +727,20 @@ export const enTranslations: Record<TranslationKey, string> = {
   "delivery.accept": "Accept",
   "delivery.decline": "Decline",
   "delivery.distance": "Distance",
+  "delivery.deliveredOn": "Delivered On",
+  "delivery.myDeliveries": "My Deliveries",
+  "delivery.orderDetails": "Order Details",
+  "delivery.calculating": "Calculating...",
+  "delivery.markInTransit": "Mark In Transit",
+  "delivery.markDelivered": "Mark Delivered",
+  "delivery.cancel": "Cancel Delivery",
+  "common.backToDashboard": "Back to Dashboard",
+  "common.retry": "Retry",
+  "errors.error": "Error",
+  "errors.fetchFailed": "Failed to fetch data",
+  "errors.updateFailed": "Failed to update",
+  "orders.statusUpdated": "Status Updated",
+  "orders.orderStatus": "Order Status",
   "parcel.title": "Parcel Delivery",
   "parcel.send": "Send Parcel",
   "parcel.receive": "Receive Parcel",
@@ -404,16 +765,13 @@ export const enTranslations: Record<TranslationKey, string> = {
   "support.helpCenter": "Help Center",
   "faq.title": "Frequently Asked Questions",
   "faq.deliveryQuestion": "How long does delivery take?",
-  "faq.deliveryAnswer":
-    "Delivery times vary based on your location and the vendor. The estimated delivery time is shown before you place your order.",
+  "faq.deliveryAnswer": "Delivery times vary based on your location and the vendor. The estimated delivery time is shown before you place your order.",
   "faq.paymentQuestion": "What payment methods are accepted?",
   "faq.paymentAnswer": "We accept credit/debit cards, mobile wallets, and cash on delivery in most locations.",
   "faq.accountQuestion": "How do I create an account?",
-  "faq.accountAnswer":
-    "You can create an account by clicking the Sign Up button and following the registration process.",
+  "faq.accountAnswer": "You can create an account by clicking the Sign Up button and following the registration process.",
   "faq.refundQuestion": "What is the refund policy?",
-  "faq.refundAnswer":
-    "Refunds are processed within 5-7 business days. Please contact support for specific refund requests.",
+  "faq.refundAnswer": "Refunds are processed within 5-7 business days. Please contact support for specific refund requests.",
   "faq.contactQuestion": "How can I contact customer support?",
   "faq.contactAnswer": "You can reach our customer support team via email, phone, or live chat in the Support section.",
   "wallet.title": "My Wallet",
@@ -452,7 +810,6 @@ export const enTranslations: Record<TranslationKey, string> = {
   "common.next": "Next",
   "common.done": "Done",
   "common.error": "Error",
-  "common.retry": "Retry",
   "common.close": "Close",
   "common.search": "Search",
   "common.filter": "Filter",
@@ -462,6 +819,8 @@ export const enTranslations: Record<TranslationKey, string> = {
   "common.min": "min",
   "common.off": "off",
   "common.free": "Free",
+  "common.greeting": "Hello",
+  "common.viewDetails": "View Details",
   "recommendations.error": "Unable to load recommendations at this time",
   "recommendations.refresh": "Refresh",
   "recommendations.noRecommendations": "No recommendations available yet",
@@ -472,12 +831,192 @@ export const enTranslations: Record<TranslationKey, string> = {
   "common.showMore": "Show More",
   "common.showLess": "Show Less",
   "recommendations.tryAgain": "Try Again",
+  "registerAs": "Register as",
+  "name": "Name",
+  "email": "Email",
+  "password": "Password",
+  "confirmPassword": "Confirm Password",
+  "alreadyHaveAccount": "Already have an account?",
+  "login": "Login",
+  "dashboard.viewDetails": "View Details",
+  "dashboard.recentOrders": "Recent Orders",
+  "dashboard.title": "Dashboard",
+  "auth.loginCustomerAccount": "login Customer Account",
+  "auth.loginDriverAccount": "login Driver Account",
+  "Delivered": "Delivered",
+  "marketplace.items": "items",
+  "marketplace.allProducts": "All Products",
+  "marketplace.title": "Marketplace",
+  "category.nameKey": "category name",
+  "home.goodMorning": "Good Morning",
+  "home.goodAfternoon": "Good Afternoon",
+  "home.goodEvening": "Good Evening",
+  "navigation.inbox": "Inbox",
+  "home.smartSuggestion": "Smart Suggestions",
+  "navigation.messages": "Messages",
+  "messages.empty": "Your messages will appear here",
+  "filter.byRating": "Sort by Rating",
+  "filter.byDistance": "Sort by Distance",
+  "filter.byPopularity": "Sort by Popularity",
+  "filter.title": "Filter Options",
+  "search.noNearbyRestaurants": "No nearby restaurants found",
+  "home.nearbyRestaurants": "Nearby Restaurants",
+  "geoNotSupported": "Geolocation not supported",
+  "error.title": "Filter options",
+  "error.byRating": "Top Rated",
+  "error.byDistance": "Nearest",
+  "error.byPopularity": "Most Popular",
+  "error.locationAccess": "Location Access",
+  "byRating": "",
+  "byDistance": "",
+  "byPopularity": "",
+  "locationAccess": "",
+  "error.geoNotSupported": "",
+  "errors.locationAccess": "Location access is required to show nearby vendors",
+  "errors.geoNotSupported": "Geolocation is not supported by this browser",
+  "categories.cart": "Cart",
+  "dashboard.viewRewards": "View Rewards",
+  "rewards.availablePoints": "Available Points",
+  "rewards.totalSpent": "Total Spent",
+  "rewards.pointsToNextLevel": "Points to Next Level",
+  "rewards.earned": "Points Earned",
+  "rewards.redeemed": "Points Redeemed",
+  "rewards.expired": "Points Expired",
+  "rewards.adjusted": "Points Adjusted",
+  "rewards.points": "Points",
+  "rewards.freeDelivery": "Free Delivery",
+  "rewards.freeDeliveryDesc": "Enjoy free delivery on your next order.",
+  "rewards.discount10": "10% Discount",
+  "rewards.discount10Desc": "Get 10% off your next purchase.",
+  "rewards.discount25": "25% Discount",
+  "rewards.discount25Desc": "Save 25% on your next order.",
+  "rewards.redeem": "Redeem",
+  "rewards.transactionHistory": "Transaction History",
+  "rewards.redeemError": "Redeem Error",
+  "rewards.insufficientPoints": "You do not have enough points to redeem this reward.",
+  "rewards.redeemErrorMessage": "An error occurred while redeeming the reward.",
+  "rewards.levelBenefits": "Level Benefits",
+  "rewards.levelBenefitsDesc": "Benefits for each reward level.",
+  "rewards.bronzeDesc": "Basic benefits for Bronze level.",
+  "rewards.silverDesc": "Enhanced benefits for Silver level.",
+  "rewards.goldDesc": "Premium benefits for Gold level.",
+  "rewards.platinumDesc": "Exclusive benefits for Platinum level.",
+  "rewards.current": "Current Level",
+  "rewards.availableRewards": "Available Rewards",
+  "rewards.redeemSuccess": "Reward Redeemed Successfully",
+  "rewards.redeemSuccessMessage": "You have successfully redeemed {title}.",
+  "rewards.title": "Rewards",
+  "rewards.level": "Level",
+  "rewards.maxLevelReached": "You've reached the maximum level!",
+  "dashboard.earnMore": "Earn More Points",
+  "navigation.checkout": "Checkout",
+  "errors.failedProducts": "Failed to load products",
+  "common.Retry": "Retry",
+  "common.refresh": "Refresh",
+  "loading.message": "Loading...",
+  "errors.noProducts": "No products available",
+   "favorites.products" : "Products",
+  "favorites.vendors" : "Vendors",
+  "favorites.empty" : "No favorites yet",
+  "navigation.browse": "Browse",
+  "favorites.all": "All",
+  "favorites.categories": "Categories",
+  "favorites.collections": "Collections",
+  "favorites.myCollections": "My Collections",
+  "favorites.newCollection": "New Collection",
+  "favorites.items": "items",
+  "favorites.collectionProducts": "Products in Collection",
+  "favorites.collectionVendors": "Vendors in Collection",
+  "favorites.collectionCategories": "Categories in Collection",
+  "favorites.addToCollection": "Add to Collection",
+  "favorites.emptyCollection": "This collection is empty",
+  "favorites.noCollections": "You don't have any collections yet",
+  "favorites.createCollection": "Create Collection",
+  "favorites.createCollectionDesc": "Create a new collection to organize your favorite items",
+  "favorites.collectionName": "Collection Name",
+  "favorites.collectionNamePlaceholder": "Enter collection name",
+  "favorites.collectionNameAr": "Collection Name (Arabic)",
+  "favorites.collectionNameArPlaceholder": "أدخل اسم المجموعة",
+  "favorites.collectionDesc": "Description",
+  "favorites.collectionDescPlaceholder": "Enter collection description",
+  "favorites.collectionDescAr": "Description (Arabic)",
+  "favorites.collectionDescArPlaceholder": "أدخل وصف المجموعة",
+  "favorites.selectCollection": "Select a collection to add this item to",
+  "filters.category": "Category",
+  "filters.allCategories": "All Categories",
+  "filters.minRating": "Minimum Rating",
+  "filters.default": "Default",
+  "filters.nameAsc": "Name (A-Z)",
+  "filters.nameDesc": "Name (Z-A)",
+  "filters.priceAsc": "Price (Low to High)",
+  "filters.priceDesc": "Price (High to Low)",
+  "filters.ratingAsc": "Rating (Low to High)",
+  "filters.ratingDesc": "Rating (High to Low)",
+  "common.create": "Create",
+  "filters.title": "Filters",
+  "filters.tags": "Product Tags",
+  "filters.additional": "Additional Filters",
+  "filters.inStock": "In Stock",
+  "filters.onSale": "On Sale",
+  "filters.clearAll": "Clear All",
+  "filters.apply": "Apply Filters",
+  "product.glutenFree": "Gluten Free",
+  "product.dairyFree": "Dairy Free",
+  "product.local": "Local",
+  "product.imported": "Imported",
+  "filters.price-asc": "Price (Low to High)",
+  "filters.price-desc": "Price (High to Low)",
+  "filters.rating-desc": "Rating (High to Low)",
+  "filters.name-asc": "Name (A-Z)",
+  "driver.deliveries": "Deliveries",
+  "driver.transactions": "Transactions",
+  "driver.orderID": "Order ID",
+  "driver.noTransactionHistory": "No transaction history available",
+  "driver.profile": "Profile",
+  "driver.wallet": "Wallet",
+  "driver.history": "History",
+  "transaction.status.completed": "Completed",
+  "transaction.status.pending": "Pending",
+  "transaction.status.failed": "Failed",
+  "driver.historyAndTransactions": "History & Transactions",
+"delivery.noCompletedDeliveries" : "No completed deliveries yet",
+"delivery.completed" : "Completed",
+"delivery.customer" : "Customer",
+"delivery.earnings" : "Earnings"
 }
 
 // Arabic translations
 export const arTranslations: Record<TranslationKey, string> = {
+  "dashboard.title": "لوحة التحكم",
+  "some.other.key": "بعض المفاتيح الأخرى",
+  "another.key": "مفتاح آخر",
+  "cart.items": "عناصر",
+  "marketplace.items": "عناصر السوق",
+  "marketplace.allProducts": "جميع المنتجات",
+  "marketplace.title": "السوق",
+  "dashboard.recentOrders": "الطلبات الأخيرة",
+  "dashboard.viewDetails": "عرض التفاصيل",
+  "registerAs": "سجل كـ",
+  "name": "الاسم",
+  "Decrease quantity": "تقليل الكمية",
+  "Increase quantity": "زيادة الكمية",
+  "Add to Cart": "أضف إلى السلة",
+  "reviews": "المراجعات",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "product.vegan": "نباتي",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "alreadyHaveAccount": "لديك حساب بالفعل؟",
+  "login": "تسجيل الدخول",
   "app.name": "ديليفرزلر",
+  "product.organic": "عضوي",
+  "categories.emptyCart": "عربة التسوق فارغة.",
+  "categories.addGrocery": "أضف عنصرًا إلى البقالة",
+  "categories.addToCart": "أضف إلى السلة",
+  "categories.remove": "إزالة",
   "app.description": "منصة توصيل متعددة الخدمات",
+  "auth.createCustomerAccount": "إنشاء حساب عميل",
+  "auth.createDriverAccount": "إنشاء حساب سائق",
   "app.language.english": "English",
   "app.language.arabic": "العربية",
   "app.language.select": "اختر اللغة",
@@ -501,6 +1040,8 @@ export const arTranslations: Record<TranslationKey, string> = {
   "auth.userType": "نوع المستخدم",
   "auth.userTypeClient": "عميل",
   "auth.userTypeDriver": "سائق",
+  "auth.loginCustomerAccount": "تسجيل دخول حساب العميل",
+  "auth.loginDriverAccount": "تسجيل دخول حساب السائق",
   "home.welcome": "مرحبًا بك في ديليفرزلر",
   "home.chooseRole": "اختر كيف تريد استخدام التطبيق",
   "home.continueAsCustomer": "المتابعة كعميل",
@@ -514,11 +1055,11 @@ export const arTranslations: Record<TranslationKey, string> = {
   "home.recentOrders": "الطلبات الأخيرة",
   "home.promotions": "العروض",
   "home.setLocation": "تحديد الموقع",
-  "home.currentLocation": "الموقع الحالي",
   "home.savedLocations": "المواقع المحفوظة",
   "home.locationPermission": "إذن الموقع",
   "home.locationPermissionDenied": "تم رفض إذن الموقع. يرجى تمكين خدمات الموقع لرؤية المتاجر القريبة.",
   "categories.food": "الطعام",
+  "Delivered": "تم التوصيل",
   "categories.groceries": "البقالة",
   "categories.pharmacy": "الصيدلية",
   "categories.parcel": "الطرود",
@@ -597,17 +1138,37 @@ export const arTranslations: Record<TranslationKey, string> = {
   "dashboard.activeDeliveries": "التوصيلات النشطة",
   "dashboard.noActiveDeliveries": "ليس لديك أي توصيلات نشطة",
   "dashboard.quickActions": "إجراءات سريعة",
-  "dashboard.loyaltyPoints": "نقاط الولاء :)",
-  "dashboard.nextReward" : "الجائزة التالية",
-  "dashboard.orderHistory" : "سجل الطلبات",
-  "dashboard.trackOrder" : "تتبع الطلب",
-  "dashboard.rewards" : "المكافآت",
-  "dashboard.reorder" : "إعادة الطلب",
+  "dashboard.loyaltyPoints": "نقاط الولاء",
+  "dashboard.nextReward": "الجائزة التالية",
+  "dashboard.orderHistory": "سجل الطلبات",
+  "dashboard.trackOrder": "تتبع الطلب",
+  "dashboard.rewards": "المكافآت",
+  "dashboard.reorder": "إعادة الطلب",
   "dashboard.dealTitle": "العرض",
-  "dashboard.dealDescription":"الوصف",
-  "dashboard.claimOffer":"الحصول على العرض",
-  "dashboard.quickReorder":"طلب سريع",
-  "dashboard.personalizedDeals":"عروض خاصة لك",
+  "dashboard.dealDescription": "الوصف",
+  "dashboard.claimOffer": "الحصول على العرض",
+  "dashboard.quickReorder": "طلب سريع",
+  "dashboard.personalizedDeals": "عروض خاصة لك",
+  "dashboard.activeOrders": "الطلبات النشطة",
+  "dashboard.completedOrders": "الطلبات المكتملة",
+  "dashboard.track": "تتبع",
+  "dashboard.noActiveOrders": "ليس لديك طلبات نشطة.",
+  "dashboard.startShopping": "ابدأ التسوق",
+  "dashboard.noCompletedOrders": "ليس لديك طلبات مكتملة.",
+  "dashboard.openOrders": "الطلبات المفتوحة",
+  "dashboard.noOpenOrders": "لا توجد طلبات مفتوحة",
+  "dashboard.openOrdersDescription": "ستظهر الطلبات المفتوحة هنا عندما يضع العملاء طلبات جديدة.",
+  "orders.orderId": "رقم الطلب",
+  "orders.customerDetails": "تفاصيل العميل",
+  "orders.items": "العناصر",
+  "orders.total": "المجموع",
+  "orders.deliveryAddress": "عنوان التوصيل",
+  "orders.estimatedDelivery": "التوصيل المتوقع",
+  "orders.statusOpen": "مفتوح",
+  "common.details": "التفاصيل",
+  "common.process": "معالجة",
+  "common.newest": "الأحدث",
+  "common.oldest": "الأقدم",
   "delivery.newDelivery": "توصيل جديد",
   "delivery.trackOrders": "تتبع الطلبات",
   "delivery.orderHistory": "سجل الطلبات",
@@ -631,6 +1192,19 @@ export const arTranslations: Record<TranslationKey, string> = {
   "delivery.accept": "قبول",
   "delivery.decline": "رفض",
   "delivery.distance": "المسافة",
+  "delivery.deliveredOn": "تم التوصيل في",
+  "delivery.myDeliveries": "توصيلاتي",
+  "delivery.orderDetails": "تفاصيل الطلب",
+  "delivery.calculating": "جاري الحساب...",
+  "delivery.markInTransit": "تحديد قيد التوصيل",
+  "delivery.markDelivered": "تحديد تم التوصيل",
+  "delivery.cancel": "إلغاء التوصيل",
+  "common.backToDashboard": "العودة إلى لوحة التحكم",
+  "common.retry": "إعادة المحاولة",
+  "errors.error": "خطأ",
+  "errors.updateFailed": "فشل في التحديث",
+  "orders.statusUpdated": "تم تحديث الحالة",
+  "orders.orderStatus": "حالة الطلب",
   "parcel.title": "توصيل الطرود",
   "parcel.send": "إرسال طرد",
   "parcel.receive": "استلام طرد",
@@ -663,8 +1237,7 @@ export const arTranslations: Record<TranslationKey, string> = {
   "faq.refundQuestion": "ما هي سياسة الاسترداد؟",
   "faq.refundAnswer": "تتم معالجة المبالغ المستردة في غضون 5-7 أيام عمل. يرجى الاتصال بالدعم لطلبات الاسترداد المحددة.",
   "faq.contactQuestion": "كيف يمكنني الاتصال بدعم العملاء؟",
-  "faq.contactAnswer":
-    "يمكنك الوصول إلى فريق دعم العملاء عبر البريد الإلكتروني أو الهاتف أو الدردشة المباشرة في قسم الدعم.",
+  "faq.contactAnswer": "يمكنك الوصول إلى فريق دعم العملاء عبر البريد الإلكتروني أو الهاتف أو الدردشة المباشرة في قسم الدعم.",
   "wallet.title": "محفظتي",
   "wallet.balance": "الرصيد",
   "wallet.addFunds": "إضافة أموال",
@@ -701,7 +1274,6 @@ export const arTranslations: Record<TranslationKey, string> = {
   "common.next": "التالي",
   "common.done": "تم",
   "common.error": "خطأ",
-  "common.retry": "إعادة المحاولة",
   "common.close": "إغلاق",
   "common.search": "بحث",
   "common.filter": "تصفية",
@@ -711,6 +1283,16 @@ export const arTranslations: Record<TranslationKey, string> = {
   "common.min": "دقيقة",
   "common.off": "خصم",
   "common.free": "مجاني",
+  "common.greeting": "مرحباً",
+  "common.viewDetails": "عرض التفاصيل",
+  "cart.yourCart": "عربة التسوق الخاصة بك",
+  "cart.startShopping": "ابدأ التسوق",
+  "cart.subtotal": "المجموع ",
+  "cart.promoCode": "رمز خصم",
+  "cart.apply": "تطبيق",
+  "cart.checkout": "الدفع",
+  "cart.remove": "إزالة",
+  "cart.empty": "عربة التسوق فارغة",
   "recommendations.error": "غير قادر على تحميل التوصيات في هذا الوقت",
   "recommendations.refresh": "تحديث",
   "recommendations.noRecommendations": "لا توجد توصيات متاحة بعد",
@@ -720,5 +1302,143 @@ export const arTranslations: Record<TranslationKey, string> = {
   "home.shopNow": "تسوق الآن",
   "common.showMore": "عرض المزيد",
   "common.showLess": "عرض أقل",
+  "home.currentLocation": "الموقع الحالي",
   "recommendations.tryAgain": "حاول مرة أخرى",
+  "category.nameKey": "اسم الفئة",
+  "categories.more": "المزيد",
+  "home.goodMorning": "صباح الخير",
+  "home.goodAfternoon": "مساء الخير",
+  "home.goodEvening": "مساء الخير",
+  "navigation.inbox": "صندوق الوارد",
+  "home.smartSuggestion": "اقتراحات ذكية",
+  "navigation.messages": "الرسائل",
+  "messages.empty": "رسائلك ستظهر هنا",
+  "filter.byRating": "ترتيب حسب التقييم",
+  "filter.byDistance": "ترتيب حسب المسافة",
+  "filter.byPopularity": "ترتيب حسب الشعبية",
+  "byRating": "الأعلى تقييماً",
+  "byDistance": "الأقرب",
+  "byPopularity": "الأكثر شعبية",
+  "search.noNearbyRestaurants": "لا توجد مطاعم قريبة",
+  "home.nearbyRestaurants": "مطاعم قريبة",
+  "locationAccess": "الوصول للموقع",
+  "geoNotSupported": "المتصفح لا يدعم تحديد الموقع الجغرافي",
+  "error.title": "خيارات التصفية",
+  "error.byRating": "الأعلى تقييماً",
+  "error.byDistance": "الأقرب",
+  "error.byPopularity": "الأكثر شعبية",
+  "error.locationAccess": "الوصول للموقع",
+  "error.geoNotSupported": "المتصفح لا يدعم تحديد الموقع الجغرافي",
+  "errors.locationAccess": "الوصول للموقع مطلوب لعرض المتاجر القريبة",
+  "errors.geoNotSupported": "المتصفح لا يدعم تحديد الموقع الجغرافي",
+  "filter.title": "خيارات التصفية",
+  "categories.cart": "عربة التسوق",
+  "dashboard.viewRewards": "عرض المكافآت",
+  "rewards.availablePoints": "النقاط المتاحة",
+  "rewards.totalSpent": "إجمالي الإنفاق",
+  "rewards.pointsToNextLevel": "النقاط للمستوى التالي",
+  "rewards.earned": "النقاط المكتسبة",
+  "rewards.redeemed": "النقاط المستبدلة",
+  "rewards.expired": "النقاط المنتهية",
+  "rewards.adjusted": "النقاط المعدلة",
+  "rewards.points": "النقاط",
+  "rewards.freeDelivery": "توصيل مجاني",
+  "rewards.freeDeliveryDesc": "استمتع بتوصيل مجاني على طلبك التالي.",
+  "rewards.discount10": "خصم 10%",
+  "rewards.discount10Desc": "احصل على خصم 10% على مشترياتك القادمة.",
+  "rewards.discount25": "خصم 25%",
+  "rewards.discount25Desc": "وفر 25% على طلبك التالي.",
+  "rewards.redeem": "استبدال",
+  "rewards.transactionHistory": "سجل المعاملات",
+  "rewards.redeemError": "خطأ في الاستبدال",
+  "rewards.insufficientPoints": "ليس لديك نقاط كافية لاستبدال هذه المكافأة.",
+  "rewards.redeemErrorMessage": "حدث خطأ أثناء استبدال المكافأة.",
+  "rewards.levelBenefits": "مزايا المستوى",
+  "rewards.levelBenefitsDesc": "المزايا لكل مستوى مكافأة.",
+  "rewards.bronzeDesc": "مزايا أساسية لمستوى البرونز.",
+  "rewards.silverDesc": "مزايا محسنة لمستوى الفضة.",
+  "rewards.goldDesc": "مزايا مميزة لمستوى الذهب.",
+  "rewards.platinumDesc": "مزايا حصرية لمستوى البلاتين.",
+  "rewards.current": "المستوى الحالي",
+  "rewards.availableRewards": "المكافآت المتاحة",
+  "rewards.redeemSuccess": "تم استبدال المكافأة بنجاح",
+  "rewards.redeemSuccessMessage": "لقد قمت باستبدال {title} بنجاح.",
+  "rewards.title": "المكافآت",
+  "rewards.level": "مستوى",
+  "rewards.maxLevelReached": "لقد وصلت إلى أعلى مستوى!",
+  "dashboard.earnMore": "اكسب المزيد من النقاط",
+  "navigation.checkout": "الدفع",
+  "errors.fetchFailed": "فشل في جلب البيانات",
+  "errors.failedProducts": "فشل في تحميل المنتجات",
+  "common.Retry": "إعادة المحاولة",
+  "common.refresh": "تحديث",
+  "loading.message": "جاري التحميل...",
+  "errors.noProducts": "لا توجد منتجات متاحة",
+  "favorites.products": "المنتجات",
+  "favorites.vendors": "المتاجر",
+  "favorites.empty": "لا توجد عناصر مفضلة",
+  "navigation.browse": "تصفح",
+  "favorites.all": "الكل",
+  "favorites.categories": "الفئات",
+  "favorites.collections": "المجموعات",
+  "favorites.myCollections": "مجموعاتي",
+  "favorites.newCollection": "مجموعة جديدة",
+  "favorites.items": "عناصر",
+  "favorites.collectionProducts": "المنتجات في المجموعة",
+  "favorites.collectionVendors": "المتاجر في المجموعة",
+  "favorites.collectionCategories": "الفئات في المجموعة",
+  "favorites.addToCollection": "إضافة إلى مجموعة",
+  "favorites.emptyCollection": "هذه المجموعة فارغة",
+  "favorites.noCollections": "ليس لديك أي مجموعات بعد",
+  "favorites.createCollection": "إنشاء مجموعة",
+  "favorites.createCollectionDesc": "إنشاء مجموعة جديدة لتنظيم العناصر المفضلة لديك",
+  "favorites.collectionName": "اسم المجموعة",
+  "favorites.collectionNamePlaceholder": "أدخل اسم المجموعة",
+  "favorites.collectionNameAr": "اسم المجموعة (بالعربية)",
+  "favorites.collectionNameArPlaceholder": "أدخل اسم المجموعة",
+  "favorites.collectionDesc": "الوصف",
+  "favorites.collectionDescPlaceholder": "أدخل وصف المجموعة",
+  "favorites.collectionDescAr": "الوصف (بالعربية)",
+  "favorites.collectionDescArPlaceholder": "أدخل وصف المجموعة",
+  "favorites.selectCollection": "اختر مجموعة لإضافة هذا العنصر إليها",
+  "filters.category": "الفئة",
+  "filters.allCategories": "جميع الفئات",
+  "filters.minRating": "الحد الأدنى للتقييم",
+  "filters.default": "الافتراضي",
+  "filters.nameAsc": "الاسم (أ-ي)",
+  "filters.nameDesc": "الاسم (ي-أ)",
+  "filters.priceAsc": "السعر (الأقل إلى الأعلى)",
+  "filters.priceDesc": "السعر (الأعلى إلى الأقل)",
+  "filters.ratingAsc": "التقييم (الأقل إلى الأعلى)",
+  "filters.ratingDesc": "التقييم (الأعلى إلى الأقل)",
+  "common.create": "إنشاء",
+  "filters.title": "خيارات التصفية",
+  "filters.tags": "علامات المنتج",
+  "filters.additional": "تصفية إضافية",
+  "filters.inStock": "متوفر",
+  "filters.onSale": "عروض",
+  "filters.clearAll": "مسح الكل",
+  "product.glutenFree": "خالي من الغلوتين",
+  "product.dairyFree": "خالي من منتجات الألبان",
+  "product.local": "محلي",
+  "product.imported": "مستورد",
+  "filters.price-asc": "السعر (الأقل إلى الأعلى)",
+  "filters.price-desc": "السعر (الأعلى إلى الأقل)",
+  "filters.rating-desc": "التقييم (الأعلى إلى الأقل)",
+  "filters.name-asc": "الاسم (أ-ي)",
+  "driver.deliveries": "التوصيلات",
+  "driver.transactions": "المعاملات",
+  "driver.orderID": "رقم الطلب",
+  "driver.noTransactionHistory": "لا يوجد سجل معاملات متاح",
+  "driver.profile": "الملف الشخصي",
+  "driver.wallet": "المحفظة",
+  "driver.history": "السجل",
+  "transaction.status.completed": "مكتمل",
+  "transaction.status.pending": "قيد الانتظار",
+  "transaction.status.failed": "فشل",
+  "driver.historyAndTransactions": "سجل التوصيلات وسجل المعاملات",
+  "delivery.noCompletedDeliveries": "لا توجد توصيلات مكتملة حتى الآن",
+  "delivery.completed": "مكتمل",
+  "delivery.customer": "العميل",
+  "delivery.earnings": "الإيرادات",
 }

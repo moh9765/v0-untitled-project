@@ -19,6 +19,12 @@ export const categories: Category[] = [
     icon: "first-aid",
     image: "/placeholder.svg?height=200&width=300",
   },
+  {
+    id: "parcel",
+    nameKey: "categories.parcel",
+    icon: "box",
+    image: "/placeholder.svg?height=200&width=300",
+  },
 ]
 
 export const subcategories: Subcategory[] = [
@@ -148,6 +154,14 @@ export const vendors: Vendor[] = [
       type: "discount",
       value: 20,
     },
+    lat: function (lat: number, lng: number, lat1: any, lng1: any) {
+      throw new Error("Function not implemented.")
+    },
+    lng: function (lat: number, lng: number, lat1: any, lng1: any) {
+      throw new Error("Function not implemented.")
+    },
+    popularity: undefined,
+    image: false
   },
   {
     id: "vendor2",
@@ -172,6 +186,14 @@ export const vendors: Vendor[] = [
       type: "free-delivery",
       value: 0,
     },
+    lat: function (lat: number, lng: number, lat1: any, lng1: any) {
+      throw new Error("Function not implemented.")
+    },
+    lng: function (lat: number, lng: number, lat1: any, lng1: any) {
+      throw new Error("Function not implemented.")
+    },
+    popularity: undefined,
+    image: false
   },
   {
     id: "vendor3",
@@ -192,6 +214,14 @@ export const vendors: Vendor[] = [
     categoryId: "food",
     subcategoryIds: ["sushi"],
     tags: ["sushi", "japanese", "asian"],
+    lat: function (lat: number, lng: number, lat1: any, lng1: any) {
+      throw new Error("Function not implemented.")
+    },
+    lng: function (lat: number, lng: number, lat1: any, lng1: any) {
+      throw new Error("Function not implemented.")
+    },
+    popularity: undefined,
+    image: false
   },
   // Grocery vendors
   {
@@ -213,6 +243,14 @@ export const vendors: Vendor[] = [
     categoryId: "groceries",
     subcategoryIds: ["produce", "dairy", "bakery"],
     tags: ["groceries", "fresh", "organic"],
+    lat: function (lat: number, lng: number, lat1: any, lng1: any) {
+      throw new Error("Function not implemented.")
+    },
+    lng: function (lat: number, lng: number, lat1: any, lng1: any) {
+      throw new Error("Function not implemented.")
+    },
+    popularity: undefined,
+    image: false
   },
   {
     id: "vendor5",
@@ -223,7 +261,7 @@ export const vendors: Vendor[] = [
     rating: 3.9,
     ratingCount: 90,
     address: "202 Cedar St, New York",
-    addressAr: "٢٠٢ شارع سيدار، نيويورك",
+    addressAr: "202 Cedar St, New York", // ٢٠٢ شارع سيدار، نيويورك
     distance: 0.5,
     deliveryTime: 15,
     deliveryFee: 1.49,
@@ -233,6 +271,14 @@ export const vendors: Vendor[] = [
     categoryId: "groceries",
     subcategoryIds: ["snacks", "beverages"],
     tags: ["groceries", "convenience", "quick"],
+    lat: function (lat: number, lng: number, lat1: any, lng1: any) {
+      throw new Error("Function not implemented.")
+    },
+    lng: function (lat: number, lng: number, lat1: any, lng1: any) {
+      throw new Error("Function not implemented.")
+    },
+    popularity: undefined,
+    image: false
   },
   // Pharmacy vendors
   {
@@ -258,6 +304,14 @@ export const vendors: Vendor[] = [
       type: "free-delivery",
       value: 0,
     },
+    lat: function (lat: number, lng: number, lat1: any, lng1: any) {
+      throw new Error("Function not implemented.")
+    },
+    lng: function (lat: number, lng: number, lat1: any, lng1: any) {
+      throw new Error("Function not implemented.")
+    },
+    popularity: undefined,
+    image: false
   },
   {
     id: "vendor7",
@@ -278,6 +332,14 @@ export const vendors: Vendor[] = [
     categoryId: "pharmacy",
     subcategoryIds: ["prescriptions", "babyCare", "personalCare"],
     tags: ["pharmacy", "family", "care"],
+    lat: function (lat: number, lng: number, lat1: any, lng1: any) {
+      throw new Error("Function not implemented.")
+    },
+    lng: function (lat: number, lng: number, lat1: any, lng1: any) {
+      throw new Error("Function not implemented.")
+    },
+    popularity: undefined,
+    image: false
   },
 ]
 

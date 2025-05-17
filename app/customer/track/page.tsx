@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { MobileNav } from "@/components/mobile-nav"
 import { ArrowLeft, MapPin, Package, Phone, User } from "lucide-react"
 import Link from "next/link"
+import { useLanguage } from "@/contexts/language-context"
 
 // Mock delivery data
 const mockDelivery = {
@@ -27,6 +28,8 @@ const mockDelivery = {
 }
 
 export default function TrackOrderPage() {
+  const { t, dir, isRTL, language } = useLanguage()
+  const lang = language // or derive lang from language if needed
   const router = useRouter()
   const searchParams = useSearchParams()
   const orderId = searchParams.get("id") || "DEL-1234"
@@ -48,6 +51,19 @@ export default function TrackOrderPage() {
     }
   }, [router])
 
+  // Translations for static text
+  const labels = {
+    trackOrder: lang === "ar" ? "تتبع الطلب" : "Track Order",
+    estimatedDelivery: lang === "ar" ? "وقت التوصيل المتوقع" : "Estimated delivery",
+    deliveryDetails: lang === "ar" ? "تفاصيل التوصيل" : "Delivery Details",
+    from: lang === "ar" ? "من" : "From",
+    to: lang === "ar" ? "إلى" : "To",
+    package: lang === "ar" ? "الطرد" : "Package",
+    driverInfo: lang === "ar" ? "معلومات السائق" : "Driver Information",
+    deliveryStatus: lang === "ar" ? "حالة التوصيل" : "Delivery Status",
+    mapPlaceholder: lang === "ar" ? "سيظهر عرض الخريطة هنا" : "Map view would appear here",
+  }
+
   if (isLoading) {
     return <div className="flex min-h-screen items-center justify-center">Loading...</div>
   }
@@ -57,7 +73,7 @@ export default function TrackOrderPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-900">
+    <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-900" dir={dir}>
       {/* Header */}
       <header className="sticky top-0 z-10 border-b bg-white dark:bg-slate-950 dark:border-slate-800">
         <div className="flex h-16 items-center px-4">
@@ -68,7 +84,7 @@ export default function TrackOrderPage() {
                 <ArrowLeft className="h-4 w-4" />
               </Link>
             </Button>
-            <h1 className="text-lg font-medium">Track Order</h1>
+            <h1 className="text-lg font-medium">{labels.trackOrder}</h1>
           </div>
         </div>
       </header>
@@ -83,24 +99,26 @@ export default function TrackOrderPage() {
                 {mockDelivery.status}
               </span>
             </div>
-            <CardDescription>Estimated delivery: {mockDelivery.estimatedDelivery}</CardDescription>
+            <CardDescription>
+              {labels.estimatedDelivery}: {mockDelivery.estimatedDelivery}
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Map placeholder */}
             <div className="w-full h-48 bg-slate-200 dark:bg-slate-800 rounded-md flex items-center justify-center">
               <MapPin className="h-8 w-8 text-slate-400" />
-              <span className="ml-2 text-slate-500">Map view would appear here</span>
+              <span className="ml-2 text-slate-500">{labels.mapPlaceholder}</span>
             </div>
 
             {/* Delivery details */}
             <div className="space-y-4">
-              <h3 className="font-semibold">Delivery Details</h3>
+              <h3 className="font-semibold">{labels.deliveryDetails}</h3>
 
               <div className="grid gap-2">
                 <div className="flex items-start gap-2 text-sm">
                   <MapPin className="h-4 w-4 text-slate-500 mt-0.5 shrink-0" />
                   <div>
-                    <p className="text-xs text-slate-500">From</p>
+                    <p className="text-xs text-slate-500">{labels.from}</p>
                     <p className="font-medium">{mockDelivery.pickupAddress}</p>
                   </div>
                 </div>
@@ -108,7 +126,7 @@ export default function TrackOrderPage() {
                 <div className="flex items-start gap-2 text-sm">
                   <MapPin className="h-4 w-4 text-slate-500 mt-0.5 shrink-0" />
                   <div>
-                    <p className="text-xs text-slate-500">To</p>
+                    <p className="text-xs text-slate-500">{labels.to}</p>
                     <p className="font-medium">{mockDelivery.deliveryAddress}</p>
                   </div>
                 </div>
@@ -116,7 +134,7 @@ export default function TrackOrderPage() {
                 <div className="flex items-start gap-2 text-sm">
                   <Package className="h-4 w-4 text-slate-500 mt-0.5 shrink-0" />
                   <div>
-                    <p className="text-xs text-slate-500">Package</p>
+                    <p className="text-xs text-slate-500">{labels.package}</p>
                     <p className="font-medium">{mockDelivery.packageDetails}</p>
                   </div>
                 </div>
@@ -125,7 +143,7 @@ export default function TrackOrderPage() {
 
             {/* Driver details */}
             <div className="space-y-4">
-              <h3 className="font-semibold">Driver Information</h3>
+              <h3 className="font-semibold">{labels.driverInfo}</h3>
 
               <div className="flex items-center justify-between p-3 bg-slate-100 dark:bg-slate-800 rounded-md">
                 <div className="flex items-center gap-3">
@@ -145,7 +163,7 @@ export default function TrackOrderPage() {
 
             {/* Status timeline */}
             <div className="space-y-4">
-              <h3 className="font-semibold">Delivery Status</h3>
+              <h3 className="font-semibold">{labels.deliveryStatus}</h3>
 
               <div className="space-y-4">
                 {mockDelivery.statusHistory.map((item, index) => (
@@ -157,7 +175,16 @@ export default function TrackOrderPage() {
                       )}
                     </div>
                     <div>
-                      <p className="font-medium">{item.status}</p>
+                      <p className="font-medium">{lang === "ar"
+                        ? (
+                          item.status === "Order Placed" ? "تم تقديم الطلب"
+                          : item.status === "Driver Assigned" ? "تم تعيين السائق"
+                          : item.status === "Pickup Complete" ? "تم الاستلام"
+                          : item.status === "In Transit" ? "قيد التوصيل"
+                          : item.status
+                        )
+                        : item.status
+                      }</p>
                       <p className="text-sm text-slate-500">{item.time}</p>
                     </div>
                   </div>

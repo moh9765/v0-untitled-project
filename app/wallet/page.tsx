@@ -3,39 +3,136 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useLanguage } from "@/contexts/language-context"
+import { useToast } from "@/hooks/use-toast"
 import { BottomNavigation } from "@/components/bottom-navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ArrowLeft, ArrowRight, Wallet, Plus, CreditCard, ArrowDownCircle, ArrowUpCircle } from "lucide-react"
+import { AddFundsDialog } from "@/components/add-funds-dialog"
+import { LogoutButton } from "@/components/logout-button"
 
 export default function WalletPage() {
   const { t, dir, isRTL } = useLanguage()
+  const { toast } = useToast()
   const router = useRouter()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const [balance, setBalance] = useState(25.5)
+  const [userId, setUserId] = useState<string | null>(null)
+  const [balance, setBalance] = useState(0)
+  const [transactions, setTransactions] = useState<any[]>([])
+  const [showAddFundsDialog, setShowAddFundsDialog] = useState(false)
 
-  // Mock transaction data
-  const transactions = [
-    { id: 1, type: "topup", amount: 20, date: "2023-05-15", status: "completed" },
-    { id: 2, type: "payment", amount: -12.5, date: "2023-05-10", status: "completed" },
-    { id: 3, type: "topup", amount: 30, date: "2023-05-01", status: "completed" },
-    { id: 4, type: "payment", amount: -15, date: "2023-04-28", status: "completed" },
-    { id: 5, type: "payment", amount: -7, date: "2023-04-20", status: "completed" },
-  ]
+  // Function to fetch wallet data
+  const fetchWalletData = async (id: string) => {
+    try {
+      const response = await fetch(`/api/wallet?userId=${id}`)
+      if (!response.ok) {
+        throw new Error("Failed to fetch wallet data")
+      }
+
+      const data = await response.json()
+      setBalance(parseFloat(data.wallet.balance) || 0)
+
+      // Format transactions for display
+      const formattedTransactions = data.transactions.map((tx: any) => ({
+        id: tx.id,
+        type: tx.transaction_type,
+        amount: parseFloat(tx.amount),
+        date: new Date(tx.created_at).toISOString().split('T')[0],
+        status: tx.status,
+        description: tx.description
+      }))
+
+      setTransactions(formattedTransactions)
+    } catch (error) {
+      console.error("Error fetching wallet data:", error)
+      toast({
+        title: "Error",
+        description: "Failed to load wallet data",
+        variant: "destructive",
+      })
+    }
+  }
+
+  // Handle successful fund addition
+  const handleFundsAdded = (amount: number) => {
+    // Update balance
+    setBalance(prev => prev + amount)
+
+    // Add new transaction to the list
+    const newTransaction = {
+      id: Date.now(), // Temporary ID
+      type: "topup",
+      amount: amount,
+      date: new Date().toISOString().split('T')[0],
+      status: "completed",
+      description: "Added funds"
+    }
+
+    setTransactions(prev => [newTransaction, ...prev])
+  }
+
+  // Function to check authentication and redirect if needed
+  const checkAuthentication = () => {
+    try {
+      // Check authentication status
+      const authStatus = localStorage.getItem("is_authenticated") === "true"
+      const storedUserId = localStorage.getItem("user_id")
+
+      console.log("Authentication check:", { authStatus, storedUserId })
+
+      setIsAuthenticated(authStatus)
+
+      // Redirect if not authenticated
+      if (!authStatus) {
+        console.log("Not authenticated, redirecting to login")
+        // Use window.location for a hard redirect
+        window.location.href = "/auth/login"
+        return false
+      }
+
+      if (storedUserId) {
+        setUserId(storedUserId)
+        fetchWalletData(storedUserId)
+      } else {
+        console.log("No user ID found, redirecting to login")
+        // Use window.location for a hard redirect
+        window.location.href = "/auth/login"
+        return false
+      }
+
+      return true
+    } catch (error) {
+      console.error("Error checking authentication:", error)
+      // Redirect to login on error
+      window.location.href = "/auth/login"
+      return false
+    }
+  }
 
   useEffect(() => {
-    // Check authentication status
-    const authStatus = localStorage.getItem("is_authenticated") === "true"
-    setIsAuthenticated(authStatus)
-    setIsLoading(false)
+    // Check authentication on component mount
+    const isAuth = checkAuthentication()
 
-    // Redirect if not authenticated
-    if (!authStatus) {
-      router.push("/auth/login")
+    // Only set loading to false if authenticated
+    if (isAuth) {
+      setIsLoading(false)
     }
-  }, [router])
+
+    // Set up interval to periodically check authentication
+    const authCheckInterval = setInterval(() => {
+      const authStatus = localStorage.getItem("is_authenticated") === "true"
+      if (!authStatus && isAuthenticated) {
+        console.log("Authentication status changed, redirecting to login")
+        window.location.href = "/auth/login"
+      }
+    }, 5000) // Check every 5 seconds
+
+    return () => {
+      clearInterval(authCheckInterval)
+    }
+  }, [isAuthenticated])
 
   if (isLoading) {
     return <div className="flex min-h-screen items-center justify-center">{t("common.loading")}</div>
@@ -50,11 +147,14 @@ export default function WalletPage() {
       {/* Header */}
       <header className="sticky top-0 z-10 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
         <div className="px-4 py-3">
-          <div className="flex items-center">
-            <Button variant="ghost" size="icon" onClick={() => router.back()}>
-              {isRTL ? <ArrowRight className="h-5 w-5" /> : <ArrowLeft className="h-5 w-5" />}
-            </Button>
-            <h1 className="text-xl font-bold ml-2">{t("wallet.title")}</h1>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <Button variant="ghost" size="icon" onClick={() => router.back()}>
+                {isRTL ? <ArrowRight className="h-5 w-5" /> : <ArrowLeft className="h-5 w-5" />}
+              </Button>
+              <h1 className="text-xl font-bold ml-2">{t("wallet.title")}</h1>
+            </div>
+            <LogoutButton variant="ghost" size="sm" />
           </div>
         </div>
       </header>
@@ -73,7 +173,10 @@ export default function WalletPage() {
                 <p className="text-3xl font-bold">${balance.toFixed(2)}</p>
               </div>
               <div className="flex gap-2 w-full">
-                <Button className="flex-1 bg-white/20 hover:bg-white/30">
+                <Button
+                  className="flex-1 bg-white/20 hover:bg-white/30"
+                  onClick={() => setShowAddFundsDialog(true)}
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   {t("wallet.addFunds")}
                 </Button>
@@ -147,6 +250,16 @@ export default function WalletPage() {
 
       {/* Bottom navigation */}
       <BottomNavigation />
+
+      {/* Add Funds Dialog */}
+      {userId && (
+        <AddFundsDialog
+          isOpen={showAddFundsDialog}
+          onClose={() => setShowAddFundsDialog(false)}
+          onSuccess={handleFundsAdded}
+          userId={userId}
+        />
+      )}
     </div>
   )
 }
